@@ -14,6 +14,7 @@ import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
+import { Route as AuthVerifyRouteImport } from './routes/auth/verify'
 import { Route as DashboardAdminRouteRouteImport } from './routes/dashboard/admin/route'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
 
@@ -42,6 +43,11 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/auth/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthVerifyRoute = AuthVerifyRouteImport.update({
+  id: '/auth/verify',
+  path: '/auth/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardAdminRouteRoute = DashboardAdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/pricing': typeof PricingRoute
   '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
+  '/auth/verify': typeof AuthVerifyRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRoute
+  '/auth/verify': typeof AuthVerifyRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/pricing': typeof PricingRoute
   '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
+  '/auth/verify': typeof AuthVerifyRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
@@ -86,17 +95,25 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/pricing'
     | '/dashboard/admin'
+    | '/auth/verify'
     | '/auth'
     | '/dashboard/'
     | '/dashboard/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pricing' | '/auth' | '/dashboard' | '/dashboard/admin'
+  to:
+    | '/'
+    | '/pricing'
+    | '/auth/verify'
+    | '/auth'
+    | '/dashboard'
+    | '/dashboard/admin'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/pricing'
     | '/dashboard/admin'
+    | '/auth/verify'
     | '/auth/'
     | '/dashboard/'
     | '/dashboard/admin/'
@@ -106,6 +123,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   PricingRoute: typeof PricingRoute
+  AuthVerifyRoute: typeof AuthVerifyRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
@@ -144,6 +162,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/verify': {
+      id: '/auth/verify'
+      path: '/auth/verify'
+      fullPath: '/auth/verify'
+      preLoaderRoute: typeof AuthVerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/admin': {
@@ -192,6 +217,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   PricingRoute: PricingRoute,
+  AuthVerifyRoute: AuthVerifyRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
 export const routeTree = rootRouteImport

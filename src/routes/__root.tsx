@@ -4,7 +4,7 @@ import { TanstackDevtools } from '@tanstack/react-devtools'
 
 export const Route = createRootRoute({
   component: () => (
-    <>
+    <div className='poppins-light'>
       <Outlet />
       <TanstackDevtools
         config={{
@@ -17,6 +17,6 @@ export const Route = createRootRoute({
           },
         ]}
       />
-    </>
+    </div>
   ),
 })
