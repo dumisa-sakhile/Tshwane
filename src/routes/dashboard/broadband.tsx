@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -6,6 +6,7 @@ import type { User } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { SubscriptionGate } from "../../components/SubscriptionGate";
 import { Wifi } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface UserData {
   email: string;
@@ -91,6 +92,17 @@ function BroadbandPage() {
               Get connected through partnerships with ISPs like MTN
             </p>
           </div>
+        </div>
+        <div className="h-[500px] flex flex-col justify-center items-center gap-2">
+          <h2 className="text-3xl font-bold text-gray-900 ">
+            Thank you for activating your Broadband Access Initiative
+          </h2>
+          <p>
+            We will email you once your personalized broadband plan is ready
+          </p>
+          <p>This usually takes 2-3 working days.</p>
+
+          <Link to="/dashboard"><Button  className="bg-blue-600">Go to Dashboard</Button></Link>
         </div>
       </div>
     </SubscriptionGate>
