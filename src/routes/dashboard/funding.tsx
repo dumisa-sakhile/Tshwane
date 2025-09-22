@@ -4,14 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
-import { FileText, Clock, CheckCircle } from "lucide-react";
+import { FileText } from "lucide-react";
 
 interface UserData {
   plan: string;

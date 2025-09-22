@@ -5,15 +5,8 @@ import { doc, getDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { SubscriptionGate } from "../../components/SubscriptionGate";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Shield, FileText, Upload, Download, Lock } from "lucide-react";
+
+import { Shield}  from "lucide-react";
 
 interface UserData {
   plan: string;
