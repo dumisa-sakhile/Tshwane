@@ -9,7 +9,7 @@ import {
   signInWithEmailLink,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,18 +56,54 @@ function RouteComponent() {
           window.localStorage.removeItem("emailForSignIn");
           const user = auth.currentUser;
           if (user) {
-            await setDoc(
-              doc(db, "users", user.uid),
-              {
-                email: user.email,
-                displayName: user.displayName || "Anonymous",
-                photoURL: user.photoURL || "",
-                isAdmin: false,
-                plan: "none",
+            // First check if user document exists
+            const userDocRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+              // User exists, only update lastLogin and ensure required fields exist
+              const existingData = userDoc.data();
+              const updateData: any = {
                 lastLogin: new Date().toISOString(),
-              },
-              { merge: true }
-            );
+              };
+
+              // Only set defaults for missing fields
+              if (!existingData.email) updateData.email = user.email;
+              if (!existingData.displayName)
+                updateData.displayName = user.displayName || "Anonymous";
+              if (!existingData.photoURL)
+                updateData.photoURL = user.photoURL || "";
+              if (existingData.isAdmin === undefined)
+                updateData.isAdmin = false;
+              if (!existingData.plan) updateData.plan = "none";
+              // Only set these fields if they are completely missing from the document
+              if (!existingData.hasOwnProperty("name")) updateData.name = "";
+              if (!existingData.hasOwnProperty("surname"))
+                updateData.surname = "";
+              if (!existingData.hasOwnProperty("gender"))
+                updateData.gender = "";
+              if (!existingData.hasOwnProperty("dob")) updateData.dob = "";
+
+              await setDoc(userDocRef, updateData, { merge: true });
+            } else {
+              // New user, set all defaults
+              await setDoc(
+                userDocRef,
+                {
+                  email: user.email,
+                  displayName: user.displayName || "Anonymous",
+                  photoURL: user.photoURL || "",
+                  isAdmin: false,
+                  plan: "none",
+                  name: "",
+                  surname: "",
+                  gender: "",
+                  dob: "",
+                  lastLogin: new Date().toISOString(),
+                },
+                { merge: true }
+              );
+            }
           }
           toast.success("Successfully signed in!");
           setIsLinkSent(false);
@@ -137,18 +173,50 @@ function RouteComponent() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       if (user) {
-        await setDoc(
-          doc(db, "users", user.uid),
-          {
-            email: user.email,
-            displayName: user.displayName || "Anonymous",
-            photoURL: user.photoURL || "",
-            isAdmin: false,
-            plan: "none",
+        // First check if user document exists
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          // User exists, only update lastLogin and ensure required fields exist
+          const existingData = userDoc.data();
+          const updateData: any = {
             lastLogin: new Date().toISOString(),
-          },
-          { merge: true }
-        );
+          };
+
+          // Only set defaults for missing fields
+          if (!existingData.email) updateData.email = user.email;
+          if (!existingData.displayName)
+            updateData.displayName = user.displayName || "Anonymous";
+          if (!existingData.photoURL) updateData.photoURL = user.photoURL || "";
+          if (existingData.isAdmin === undefined) updateData.isAdmin = false;
+          if (!existingData.plan) updateData.plan = "none";
+          // Only set these fields if they are completely missing from the document
+          if (!existingData.hasOwnProperty("name")) updateData.name = "";
+          if (!existingData.hasOwnProperty("surname")) updateData.surname = "";
+          if (!existingData.hasOwnProperty("gender")) updateData.gender = "";
+          if (!existingData.hasOwnProperty("dob")) updateData.dob = "";
+
+          await setDoc(userDocRef, updateData, { merge: true });
+        } else {
+          // New user, set all defaults
+          await setDoc(
+            userDocRef,
+            {
+              email: user.email,
+              displayName: user.displayName || "Anonymous",
+              photoURL: user.photoURL || "",
+              isAdmin: false,
+              plan: "none",
+              name: "",
+              surname: "",
+              gender: "",
+              dob: "",
+              lastLogin: new Date().toISOString(),
+            },
+            { merge: true }
+          );
+        }
       }
       toast.success("Successfully signed in with Google!");
     } catch (err: any) {

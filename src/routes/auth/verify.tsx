@@ -6,7 +6,7 @@ import {
   signInWithEmailLink,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,16 +59,56 @@ function RouteComponent() {
 
           const user = auth.currentUser;
           if (user) {
-            await setDoc(
-              doc(db, "users", user.uid),
-              {
-                email: user.email,
-                displayName: user.displayName || "Anonymous",
+            // First check if user document exists
+            const userDocRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+              // User exists, only update lastLogin, emailVerified and ensure required fields exist
+              const existingData = userDoc.data();
+              const updateData: any = {
                 lastLogin: new Date().toISOString(),
                 emailVerified: true,
-              },
-              { merge: true }
-            );
+              };
+
+              // Only set defaults for missing fields
+              if (!existingData.email) updateData.email = user.email;
+              if (!existingData.displayName)
+                updateData.displayName = user.displayName || "Anonymous";
+              if (!existingData.photoURL)
+                updateData.photoURL = user.photoURL || "";
+              if (existingData.isAdmin === undefined)
+                updateData.isAdmin = false;
+              if (!existingData.plan) updateData.plan = "none";
+              // Only set these fields if they are completely missing from the document
+              if (!existingData.hasOwnProperty("name")) updateData.name = "";
+              if (!existingData.hasOwnProperty("surname"))
+                updateData.surname = "";
+              if (!existingData.hasOwnProperty("gender"))
+                updateData.gender = "";
+              if (!existingData.hasOwnProperty("dob")) updateData.dob = "";
+
+              await setDoc(userDocRef, updateData, { merge: true });
+            } else {
+              // New user, set all defaults
+              await setDoc(
+                userDocRef,
+                {
+                  email: user.email,
+                  displayName: user.displayName || "Anonymous",
+                  photoURL: user.photoURL || "",
+                  lastLogin: new Date().toISOString(),
+                  emailVerified: true,
+                  isAdmin: false,
+                  plan: "none",
+                  name: "",
+                  surname: "",
+                  gender: "",
+                  dob: "",
+                },
+                { merge: true }
+              );
+            }
           }
 
           toast.success("Email verified successfully!");
@@ -113,16 +153,51 @@ function RouteComponent() {
 
       const user = auth.currentUser;
       if (user) {
-        await setDoc(
-          doc(db, "users", user.uid),
-          {
-            email: user.email,
-            displayName: user.displayName || "Anonymous",
+        // First check if user document exists
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          // User exists, only update lastLogin, emailVerified and ensure required fields exist
+          const existingData = userDoc.data();
+          const updateData: any = {
             lastLogin: new Date().toISOString(),
             emailVerified: true,
-          },
-          { merge: true }
-        );
+          };
+
+          // Only set defaults for missing fields
+          if (!existingData.email) updateData.email = user.email;
+          if (!existingData.displayName)
+            updateData.displayName = user.displayName || "Anonymous";
+          if (!existingData.photoURL) updateData.photoURL = user.photoURL || "";
+          if (existingData.isAdmin === undefined) updateData.isAdmin = false;
+          if (!existingData.plan) updateData.plan = "none";
+          if (existingData.name === undefined) updateData.name = "";
+          if (existingData.surname === undefined) updateData.surname = "";
+          if (existingData.gender === undefined) updateData.gender = "";
+          if (existingData.dob === undefined) updateData.dob = "";
+
+          await setDoc(userDocRef, updateData, { merge: true });
+        } else {
+          // New user, set all defaults
+          await setDoc(
+            userDocRef,
+            {
+              email: user.email,
+              displayName: user.displayName || "Anonymous",
+              photoURL: user.photoURL || "",
+              lastLogin: new Date().toISOString(),
+              emailVerified: true,
+              isAdmin: false,
+              plan: "none",
+              name: "",
+              surname: "",
+              gender: "",
+              dob: "",
+            },
+            { merge: true }
+          );
+        }
       }
 
       toast.success("Email verified successfully!");

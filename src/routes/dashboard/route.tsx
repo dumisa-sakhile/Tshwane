@@ -29,6 +29,10 @@ interface UserData {
   photoURL?: string;
   isAdmin: boolean;
   plan: string;
+  name?: string;
+  surname?: string;
+  gender?: string;
+  dob?: string; // Date of Birth as ISO string
 }
 
 export const Route = createFileRoute("/dashboard")({
@@ -59,6 +63,10 @@ function DashboardLayout() {
               photoURL: existingData.photoURL || user.photoURL || "",
               isAdmin: existingData.isAdmin || false,
               plan: existingData.plan || "none",
+              name: existingData.name || "",
+              surname: existingData.surname || "",
+              gender: existingData.gender || "",
+              dob: existingData.dob || "",
             };
 
             // Update the document with merged defaults if any fields were missing
@@ -72,10 +80,16 @@ function DashboardLayout() {
               photoURL: user.photoURL || "",
               isAdmin: false,
               plan: "none",
+              name: "",
+              surname: "",
+              gender: "",
+              dob: "",
             };
 
-            // Create the document in Firestore
-            await setDoc(doc(db, "users", user.uid), newUserData);
+            // Create the document in Firestore with merge to preserve any existing fields
+            await setDoc(doc(db, "users", user.uid), newUserData, {
+              merge: true,
+            });
             setUserData(newUserData);
           }
         } catch (error) {
@@ -87,6 +101,10 @@ function DashboardLayout() {
             photoURL: user.photoURL || "",
             isAdmin: false,
             plan: "none",
+            name: "",
+            surname: "",
+            gender: "",
+            dob: "",
           };
           setUserData(fallbackData);
         }

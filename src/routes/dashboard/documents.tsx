@@ -5,13 +5,26 @@ import { doc, getDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { SubscriptionGate } from "../../components/SubscriptionGate";
-
-import { Shield}  from "lucide-react";
+import { Shield, FileText, Upload, Download } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
 
 interface UserData {
-  plan: string;
   email: string;
   displayName?: string;
+  photoURL?: string;
+  isAdmin: boolean;
+  plan: string;
+  name?: string;
+  surname?: string;
+  gender?: string;
+  dob?: string; // Date of Birth as ISO string
 }
 
 export const Route = createFileRoute("/dashboard/documents")({
@@ -88,7 +101,56 @@ function DocumentsPage() {
           </div>
         </div>
 
-     
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Upload className="w-5 h-5 mr-2 text-blue-600" />
+                Upload Documents
+              </CardTitle>
+              <CardDescription>
+                Securely upload your business documents
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button className="w-full">Choose Files</Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <FileText className="w-5 h-5 mr-2 text-green-600" />
+                Document Library
+              </CardTitle>
+              <CardDescription>
+                View and manage your stored documents
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                Browse Library
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Download className="w-5 h-5 mr-2 text-purple-600" />
+                Secure Sharing
+              </CardTitle>
+              <CardDescription>
+                Share documents securely with partners
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                Share Documents
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </SubscriptionGate>
   );

@@ -435,7 +435,7 @@ function HomePage() {
 
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
             <p>
-              © {new Date().getFullYear()} Tswane Economic Hub. All rights
+              © {new Date().getFullYear()} Tshwane Economic Hub. All rights
               reserved.
             </p>
           </div>

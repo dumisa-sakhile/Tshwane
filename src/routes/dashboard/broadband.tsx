@@ -5,12 +5,18 @@ import { doc, getDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { SubscriptionGate } from "../../components/SubscriptionGate";
-import { Wifi} from "lucide-react";
+import { Wifi } from "lucide-react";
 
 interface UserData {
-  plan: string;
   email: string;
   displayName?: string;
+  photoURL?: string;
+  isAdmin: boolean;
+  plan: string;
+  name?: string;
+  surname?: string;
+  gender?: string;
+  dob?: string; // Date of Birth as ISO string
 }
 
 export const Route = createFileRoute("/dashboard/broadband")({
@@ -86,8 +92,6 @@ function BroadbandPage() {
             </p>
           </div>
         </div>
-
-      
       </div>
     </SubscriptionGate>
   );

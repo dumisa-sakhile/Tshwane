@@ -9,9 +9,15 @@ import { SubscriptionGate } from "../../components/SubscriptionGate";
 import { Eye } from "lucide-react";
 
 interface UserData {
-  plan: string;
   email: string;
   displayName?: string;
+  photoURL?: string;
+  isAdmin: boolean;
+  plan: string;
+  name?: string;
+  surname?: string;
+  gender?: string;
+  dob?: string; // Date of Birth as ISO string
 }
 
 export const Route = createFileRoute("/dashboard/visibility")({
@@ -87,10 +93,6 @@ function VisibilityPage() {
             </p>
           </div>
         </div>
-
-     
-
-        
       </div>
     </SubscriptionGate>
   );

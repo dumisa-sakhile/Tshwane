@@ -7,9 +7,15 @@ import { auth, db } from "../../config/firebase";
 import { FileText } from "lucide-react";
 
 interface UserData {
-  plan: string;
   email: string;
   displayName?: string;
+  photoURL?: string;
+  isAdmin: boolean;
+  plan: string;
+  name?: string;
+  surname?: string;
+  gender?: string;
+  dob?: string; // Date of Birth as ISO string
 }
 
 export const Route = createFileRoute("/dashboard/funding")({
@@ -72,8 +78,6 @@ function FundingPage() {
           </p>
         </div>
       </div>
-
-    
     </div>
   );
 }

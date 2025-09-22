@@ -9,7 +9,7 @@ import {
   signInWithEmailLink,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,15 +59,54 @@ const SignupForm: React.FC<SignupFormProps> = ({ className = "" }) => {
           window.localStorage.removeItem("emailForSignIn");
           const user = auth.currentUser;
           if (user) {
-            await setDoc(
-              doc(db, "users", user.uid),
-              {
-                email: user.email,
-                displayName: user.displayName || "Anonymous",
+            // First check if user document exists
+            const userDocRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+              // User exists, only update lastLogin and ensure required fields exist
+              const existingData = userDoc.data();
+              const updateData: any = {
                 lastLogin: new Date().toISOString(),
-              },
-              { merge: true }
-            );
+              };
+
+              // Only set defaults for missing fields
+              if (!existingData.email) updateData.email = user.email;
+              if (!existingData.displayName)
+                updateData.displayName = user.displayName || "Anonymous";
+              if (!existingData.photoURL)
+                updateData.photoURL = user.photoURL || "";
+              if (existingData.isAdmin === undefined)
+                updateData.isAdmin = false;
+              if (!existingData.plan) updateData.plan = "none";
+              // Only set these fields if they are completely missing from the document
+              if (!existingData.hasOwnProperty("name")) updateData.name = "";
+              if (!existingData.hasOwnProperty("surname"))
+                updateData.surname = "";
+              if (!existingData.hasOwnProperty("gender"))
+                updateData.gender = "";
+              if (!existingData.hasOwnProperty("dob")) updateData.dob = "";
+
+              await setDoc(userDocRef, updateData, { merge: true });
+            } else {
+              // New user, set all defaults
+              await setDoc(
+                userDocRef,
+                {
+                  email: user.email,
+                  displayName: user.displayName || "Anonymous",
+                  photoURL: user.photoURL || "",
+                  lastLogin: new Date().toISOString(),
+                  isAdmin: false,
+                  plan: "none",
+                  name: "",
+                  surname: "",
+                  gender: "",
+                  dob: "",
+                },
+                { merge: true }
+              );
+            }
           }
           toast.success("Successfully signed in!");
           setIsLinkSent(false);
@@ -106,8 +145,6 @@ const SignupForm: React.FC<SignupFormProps> = ({ className = "" }) => {
     }
   };
 
-   
-   
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -139,15 +176,50 @@ const SignupForm: React.FC<SignupFormProps> = ({ className = "" }) => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       if (user) {
-        await setDoc(
-          doc(db, "users", user.uid),
-          {
-            email: user.email,
-            displayName: user.displayName || "Anonymous",
+        // First check if user document exists
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          // User exists, only update lastLogin and ensure required fields exist
+          const existingData = userDoc.data();
+          const updateData: any = {
             lastLogin: new Date().toISOString(),
-          },
-          { merge: true }
-        );
+          };
+
+          // Only set defaults for missing fields
+          if (!existingData.email) updateData.email = user.email;
+          if (!existingData.displayName)
+            updateData.displayName = user.displayName || "Anonymous";
+          if (!existingData.photoURL) updateData.photoURL = user.photoURL || "";
+          if (existingData.isAdmin === undefined) updateData.isAdmin = false;
+          if (!existingData.plan) updateData.plan = "none";
+          // Only set these fields if they are completely missing from the document
+          if (!existingData.hasOwnProperty("name")) updateData.name = "";
+          if (!existingData.hasOwnProperty("surname")) updateData.surname = "";
+          if (!existingData.hasOwnProperty("gender")) updateData.gender = "";
+          if (!existingData.hasOwnProperty("dob")) updateData.dob = "";
+
+          await setDoc(userDocRef, updateData, { merge: true });
+        } else {
+          // New user, set all defaults
+          await setDoc(
+            userDocRef,
+            {
+              email: user.email,
+              displayName: user.displayName || "Anonymous",
+              photoURL: user.photoURL || "",
+              lastLogin: new Date().toISOString(),
+              isAdmin: false,
+              plan: "none",
+              name: "",
+              surname: "",
+              gender: "",
+              dob: "",
+            },
+            { merge: true }
+          );
+        }
       }
       toast.success("Successfully signed in with Google!");
     } catch (err: any) {
@@ -161,8 +233,6 @@ const SignupForm: React.FC<SignupFormProps> = ({ className = "" }) => {
   return (
     <div
       className={`bg-white rounded-xl p-6 text-gray-800 shadow-2xl ${className}`}>
-
-     
       <h3 className="font-bold text-lg mb-4">
         Join hundreds of township businesses
       </h3>
