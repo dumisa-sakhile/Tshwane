@@ -8,6 +8,7 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
@@ -106,6 +107,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ className = "" }) => {
     }
   };
 
+   
+   
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -159,6 +162,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ className = "" }) => {
   return (
     <div
       className={`bg-white rounded-xl p-6 text-gray-800 shadow-2xl ${className}`}>
+
+     
       <h3 className="font-bold text-lg mb-4">
         Join hundreds of township businesses
       </h3>
