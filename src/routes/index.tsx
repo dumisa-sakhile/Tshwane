@@ -1,4 +1,4 @@
-import { createFileRoute,Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,17 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Shield,
-  Lock,
-  Zap,
-  Users,
-  Target,
-  MapPin,
-  ArrowRight,
-} from "lucide-react";
+import { Shield, Lock, Zap, Users, Target, ArrowRight } from "lucide-react";
+import SignupForm from "@/components/SignupForm";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -39,55 +30,28 @@ function HomePage() {
                 Connecting township entrepreneurs with funding opportunities and
                 resources to grow their businesses.
               </p>
-              <Link to="/auth" className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="bg-white text-blue-700 hover:bg-blue-50 font-semibold">
-                  Find Funding Opportunities
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-transparent border-white text-white hover:bg-white/10">
-                  Learn About Workshops
-                </Button>
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/pricing">
+                  <Button
+                    size="lg"
+                    className="bg-white text-blue-700 hover:bg-blue-50 font-semibold">
+                    Sign up for Free!
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="bg-transparent border-white text-white hover:bg-white/10">
+                    Get Started.
+                  </Button>
+                </Link>
+              </div>
             </div>
             <div className="flex-1 flex justify-center">
               <div className="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/20">
-                <div className="bg-white rounded-xl p-6 text-gray-800 shadow-2xl">
-                  <h3 className="font-bold text-lg mb-4">
-                    Join hundreds of township businesses
-                  </h3>
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="email" className="text-sm">
-                        Email Address
-                      </Label>
-                      <Input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email"
-                        className="mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="business" className="text-sm">
-                        Business Type
-                      </Label>
-                      <Input
-                        type="text"
-                        id="business"
-                        placeholder="What's your business?"
-                        className="mt-1"
-                      />
-                    </div>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                      Get Started
-                    </Button>
-                  </div>
-                </div>
+                <SignupForm />
               </div>
             </div>
           </div>
@@ -105,7 +69,7 @@ function HomePage() {
               <CardHeader>
                 <div className="flex justify-center mb-4">
                   <div className="p-3 bg-red-100 rounded-full">
-                    <MapPin className="h-8 w-8 text-red-600" />
+                    <Lock className="h-8 w-8 text-red-600" />
                   </div>
                 </div>
                 <CardTitle className="text-red-600">
@@ -277,7 +241,7 @@ function HomePage() {
                     </h4>
                     <p className="text-gray-600">
                       We help township businesses get connected through
-                      partnerships with ISPs like MTN. 
+                      partnerships with ISPs like MTN.
                     </p>
                   </div>
                 </CardContent>
