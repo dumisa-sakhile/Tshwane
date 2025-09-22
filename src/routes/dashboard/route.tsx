@@ -1,7 +1,12 @@
-import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Outlet,
+  Link,
+  useNavigate,
+} from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { Button } from "../../components/ui/button";
@@ -14,13 +19,15 @@ import {
   Users,
   Building2,
   LogOut,
+  Home,
 } from "lucide-react";
 
 interface UserData {
   email: string;
   displayName?: string;
   photoURL?: string;
-  isAdmin?: boolean;
+  isAdmin: boolean;
+  plan: string;
 }
 
 export const Route = createFileRoute("/dashboard")({
@@ -31,6 +38,7 @@ function DashboardLayout() {
   const [user, setUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -40,25 +48,46 @@ function DashboardLayout() {
         // Fetch additional user data from Firestore
         try {
           const userDoc = await getDoc(doc(db, "users", user.uid));
+
           if (userDoc.exists()) {
-            setUserData(userDoc.data() as UserData);
+            // Merge existing data with defaults
+            const existingData = userDoc.data();
+            const userData: UserData = {
+              email: existingData.email || user.email || "",
+              displayName: existingData.displayName || user.displayName || "",
+              photoURL: existingData.photoURL || user.photoURL || "",
+              isAdmin: existingData.isAdmin || false,
+              plan: existingData.plan || "none",
+            };
+
+            // Update the document with merged defaults if any fields were missing
+            await setDoc(doc(db, "users", user.uid), userData, { merge: true });
+            setUserData(userData);
           } else {
-            // If no document exists, create basic user data
-            setUserData({
+            // Create new document with defaults
+            const newUserData: UserData = {
               email: user.email || "",
               displayName: user.displayName || "",
               photoURL: user.photoURL || "",
               isAdmin: false,
-            });
+              plan: "none",
+            };
+
+            // Create the document in Firestore
+            await setDoc(doc(db, "users", user.uid), newUserData);
+            setUserData(newUserData);
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
-          setUserData({
+          console.error("Error fetching/creating user data:", error);
+          // Fallback to local data with defaults
+          const fallbackData: UserData = {
             email: user.email || "",
             displayName: user.displayName || "",
             photoURL: user.photoURL || "",
             isAdmin: false,
-          });
+            plan: "none",
+          };
+          setUserData(fallbackData);
         }
       } else {
         setUser(null);
@@ -69,6 +98,13 @@ function DashboardLayout() {
 
     return () => unsubscribe();
   }, []);
+
+  // Redirect to home if user is not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate({ to: "/" });
+    }
+  }, [user, loading, navigate]);
 
   const handleSignOut = async () => {
     try {
@@ -95,6 +131,11 @@ function DashboardLayout() {
   }
 
   const menuItems = [
+    {
+      title: "Dashboard",
+      icon: Home,
+      href: "/dashboard/",
+    },
     {
       title: "Funding Application Portal",
       icon: FileText,
@@ -176,11 +217,12 @@ function DashboardLayout() {
               <Link
                 key={item.href}
                 to={item.href}
-                className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
                 activeProps={{
                   className:
                     "bg-blue-50 text-blue-700 border-r-2 border-blue-600",
-                }}>
+                }}
+                activeOptions={{ exact: true }}>
                 <item.icon className="mr-3 h-4 w-4 flex-shrink-0" />
                 {item.title}
               </Link>
@@ -201,7 +243,8 @@ function DashboardLayout() {
                   activeProps={{
                     className:
                       "bg-blue-50 text-blue-700 border-r-2 border-blue-600",
-                  }}>
+                  }}
+                  activeOptions={{ exact: true }}>
                   <item.icon className="mr-3 h-4 w-4 flex-shrink-0" />
                   {item.title}
                 </Link>
@@ -214,7 +257,7 @@ function DashboardLayout() {
         <div className="p-4 border-t border-gray-200">
           <Button
             onClick={handleSignOut}
-            variant="outline"
+            variant="destructive"
             className="w-full justify-start">
             <LogOut className="mr-2 h-4 w-4" />
             Sign Out

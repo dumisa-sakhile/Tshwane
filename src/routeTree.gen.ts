@@ -14,6 +14,11 @@ import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
+import { Route as DashboardWorkshopsRouteImport } from './routes/dashboard/workshops'
+import { Route as DashboardVisibilityRouteImport } from './routes/dashboard/visibility'
+import { Route as DashboardFundingRouteImport } from './routes/dashboard/funding'
+import { Route as DashboardDocumentsRouteImport } from './routes/dashboard/documents'
+import { Route as DashboardBroadbandRouteImport } from './routes/dashboard/broadband'
 import { Route as AuthVerifyRouteImport } from './routes/auth/verify'
 import { Route as DashboardAdminRouteRouteImport } from './routes/dashboard/admin/route'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
@@ -43,6 +48,31 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/auth/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardWorkshopsRoute = DashboardWorkshopsRouteImport.update({
+  id: '/workshops',
+  path: '/workshops',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardVisibilityRoute = DashboardVisibilityRouteImport.update({
+  id: '/visibility',
+  path: '/visibility',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardFundingRoute = DashboardFundingRouteImport.update({
+  id: '/funding',
+  path: '/funding',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDocumentsRoute = DashboardDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBroadbandRoute = DashboardBroadbandRouteImport.update({
+  id: '/broadband',
+  path: '/broadband',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const AuthVerifyRoute = AuthVerifyRouteImport.update({
   id: '/auth/verify',
   path: '/auth/verify',
@@ -65,6 +95,11 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
   '/auth/verify': typeof AuthVerifyRoute
+  '/dashboard/broadband': typeof DashboardBroadbandRoute
+  '/dashboard/documents': typeof DashboardDocumentsRoute
+  '/dashboard/funding': typeof DashboardFundingRoute
+  '/dashboard/visibility': typeof DashboardVisibilityRoute
+  '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
@@ -73,6 +108,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRoute
   '/auth/verify': typeof AuthVerifyRoute
+  '/dashboard/broadband': typeof DashboardBroadbandRoute
+  '/dashboard/documents': typeof DashboardDocumentsRoute
+  '/dashboard/funding': typeof DashboardFundingRoute
+  '/dashboard/visibility': typeof DashboardVisibilityRoute
+  '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
@@ -84,6 +124,11 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
   '/auth/verify': typeof AuthVerifyRoute
+  '/dashboard/broadband': typeof DashboardBroadbandRoute
+  '/dashboard/documents': typeof DashboardDocumentsRoute
+  '/dashboard/funding': typeof DashboardFundingRoute
+  '/dashboard/visibility': typeof DashboardVisibilityRoute
+  '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
@@ -96,6 +141,11 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/dashboard/admin'
     | '/auth/verify'
+    | '/dashboard/broadband'
+    | '/dashboard/documents'
+    | '/dashboard/funding'
+    | '/dashboard/visibility'
+    | '/dashboard/workshops'
     | '/auth'
     | '/dashboard/'
     | '/dashboard/admin/'
@@ -104,6 +154,11 @@ export interface FileRouteTypes {
     | '/'
     | '/pricing'
     | '/auth/verify'
+    | '/dashboard/broadband'
+    | '/dashboard/documents'
+    | '/dashboard/funding'
+    | '/dashboard/visibility'
+    | '/dashboard/workshops'
     | '/auth'
     | '/dashboard'
     | '/dashboard/admin'
@@ -114,6 +169,11 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/dashboard/admin'
     | '/auth/verify'
+    | '/dashboard/broadband'
+    | '/dashboard/documents'
+    | '/dashboard/funding'
+    | '/dashboard/visibility'
+    | '/dashboard/workshops'
     | '/auth/'
     | '/dashboard/'
     | '/dashboard/admin/'
@@ -164,6 +224,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/workshops': {
+      id: '/dashboard/workshops'
+      path: '/workshops'
+      fullPath: '/dashboard/workshops'
+      preLoaderRoute: typeof DashboardWorkshopsRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/visibility': {
+      id: '/dashboard/visibility'
+      path: '/visibility'
+      fullPath: '/dashboard/visibility'
+      preLoaderRoute: typeof DashboardVisibilityRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/funding': {
+      id: '/dashboard/funding'
+      path: '/funding'
+      fullPath: '/dashboard/funding'
+      preLoaderRoute: typeof DashboardFundingRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/documents': {
+      id: '/dashboard/documents'
+      path: '/documents'
+      fullPath: '/dashboard/documents'
+      preLoaderRoute: typeof DashboardDocumentsRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/broadband': {
+      id: '/dashboard/broadband'
+      path: '/broadband'
+      fullPath: '/dashboard/broadband'
+      preLoaderRoute: typeof DashboardBroadbandRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/auth/verify': {
       id: '/auth/verify'
       path: '/auth/verify'
@@ -201,11 +296,21 @@ const DashboardAdminRouteRouteWithChildren =
 
 interface DashboardRouteRouteChildren {
   DashboardAdminRouteRoute: typeof DashboardAdminRouteRouteWithChildren
+  DashboardBroadbandRoute: typeof DashboardBroadbandRoute
+  DashboardDocumentsRoute: typeof DashboardDocumentsRoute
+  DashboardFundingRoute: typeof DashboardFundingRoute
+  DashboardVisibilityRoute: typeof DashboardVisibilityRoute
+  DashboardWorkshopsRoute: typeof DashboardWorkshopsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAdminRouteRoute: DashboardAdminRouteRouteWithChildren,
+  DashboardBroadbandRoute: DashboardBroadbandRoute,
+  DashboardDocumentsRoute: DashboardDocumentsRoute,
+  DashboardFundingRoute: DashboardFundingRoute,
+  DashboardVisibilityRoute: DashboardVisibilityRoute,
+  DashboardWorkshopsRoute: DashboardWorkshopsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 

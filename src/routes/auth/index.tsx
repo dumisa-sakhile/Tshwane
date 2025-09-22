@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { auth, db} from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -61,6 +61,9 @@ function RouteComponent() {
               {
                 email: user.email,
                 displayName: user.displayName || "Anonymous",
+                photoURL: user.photoURL || "",
+                isAdmin: false,
+                plan: "none",
                 lastLogin: new Date().toISOString(),
               },
               { merge: true }
@@ -139,6 +142,9 @@ function RouteComponent() {
           {
             email: user.email,
             displayName: user.displayName || "Anonymous",
+            photoURL: user.photoURL || "",
+            isAdmin: false,
+            plan: "none",
             lastLogin: new Date().toISOString(),
           },
           { merge: true }
@@ -266,8 +272,6 @@ function RouteComponent() {
                 <p className="text-center text-xs text-gray-300 mt-4">
                   Create an account to see what offers are available!
                 </p>
-
-                
               </form>
             </>
           )}
