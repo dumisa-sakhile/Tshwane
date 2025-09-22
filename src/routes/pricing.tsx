@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Card,
   CardContent,
@@ -111,9 +111,11 @@ function RouteComponent() {
                 <span>Broadband Access Initiatives</span>
               </li>
             </ul>
-            <Button className="w-full" variant="outline">
-              Get Started
-            </Button>
+            <Link to="/auth">
+              <Button className="w-full" variant="outline">
+                Get Started
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 
@@ -206,7 +208,9 @@ function RouteComponent() {
                 <span>Broadband Access Initiatives</span>
               </li>
             </ul>
-            <Button className="w-full">Choose Standard</Button>
+            <Link to="/auth">
+              <Button className="w-full">Choose Standard</Button>
+            </Link>
           </CardContent>
         </Card>
 
@@ -298,9 +302,11 @@ function RouteComponent() {
                 </span>
               </li>
             </ul>
-            <Button className="w-full bg-purple-600 hover:bg-purple-700">
-              Choose Premium
-            </Button>
+            <Link to="/auth">
+              <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                Choose Premium
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

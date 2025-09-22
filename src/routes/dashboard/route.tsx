@@ -205,7 +205,7 @@ function DashboardLayout() {
     {
       title: "Users",
       icon: Users,
-      href: "/dashboard/admin/users",
+      href: "/dashboard/admin",
     },
     {
       title: "Business Profiles",

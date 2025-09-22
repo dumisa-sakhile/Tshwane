@@ -31,7 +31,7 @@ function HomePage() {
                 resources to grow their businesses.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/pricing">
+                <Link to="/auth">
                   <Button
                     size="lg"
                     className="bg-white text-blue-700 hover:bg-blue-50 font-semibold">
@@ -328,17 +328,21 @@ function HomePage() {
             and tools designed specifically for township entrepreneurs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-blue-700 hover:bg-blue-50 font-semibold px-8">
-              Create Account
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-transparent border-white text-white hover:bg-white/10 px-8">
-              Learn More
-            </Button>
+            <Link to="/auth">
+              <Button
+                size="lg"
+                className="bg-white text-blue-700 hover:bg-blue-50 font-semibold px-8">
+                Create Account
+              </Button>
+            </Link>
+            <Link to="/auth">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-white text-white hover:bg-white/10 px-8">
+                Learn More
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
