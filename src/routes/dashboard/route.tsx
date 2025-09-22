@@ -20,6 +20,7 @@ import {
   Building2,
   LogOut,
   Home,
+  Lock,
 } from "lucide-react";
 
 interface UserData {
@@ -114,6 +115,19 @@ function DashboardLayout() {
     }
   };
 
+  // Convert plan to numeric value for comparison
+  const currentPlanLevel = userData?.plan
+    ? userData.plan === "none"
+      ? 0
+      : parseInt(userData.plan) || 0
+    : 0;
+
+  // Function to determine which icon to show (Lock or feature icon)
+  const getMenuIcon = (item: (typeof menuItems)[0]) => {
+    const isLocked = currentPlanLevel < item.requiredPlan;
+    return isLocked ? Lock : item.icon;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -135,31 +149,37 @@ function DashboardLayout() {
       title: "Dashboard",
       icon: Home,
       href: "/dashboard/",
+      requiredPlan: 0,
     },
     {
       title: "Funding Application Portal",
       icon: FileText,
       href: "/dashboard/funding",
+      requiredPlan: 0,
     },
     {
       title: "Business Workshops",
       icon: GraduationCap,
       href: "/dashboard/workshops",
+      requiredPlan: 1,
     },
     {
       title: "Market Visibility Tools",
       icon: Eye,
       href: "/dashboard/visibility",
+      requiredPlan: 1,
     },
     {
       title: "Secure Document Management",
       icon: Shield,
       href: "/dashboard/documents",
+      requiredPlan: 2,
     },
     {
       title: "Broadband Access Initiatives",
       icon: Wifi,
       href: "/dashboard/broadband",
+      requiredPlan: 2,
     },
   ];
 
@@ -213,20 +233,39 @@ function DashboardLayout() {
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
               Services
             </h3>
-            {menuItems.map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-                activeProps={{
-                  className:
-                    "bg-blue-50 text-blue-700 border-r-2 border-blue-600",
-                }}
-                activeOptions={{ exact: true }}>
-                <item.icon className="mr-3 h-4 w-4 flex-shrink-0" />
-                {item.title}
-              </Link>
-            ))}
+            {menuItems.map((item) => {
+              const MenuIcon = getMenuIcon(item);
+              const isLocked = currentPlanLevel < item.requiredPlan;
+
+              return (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={`flex items-center px-3 py-2 text-sm font-medium transition-colors ${
+                    isLocked
+                      ? "text-gray-400 hover:bg-gray-50 hover:text-gray-500"
+                      : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  }`}
+                  activeProps={{
+                    className: isLocked
+                      ? "bg-gray-50 text-gray-400 border-r-2 border-gray-300"
+                      : "bg-blue-50 text-blue-700 border-r-2 border-blue-600",
+                  }}
+                  activeOptions={{ exact: true }}>
+                  <MenuIcon
+                    className={`mr-3 h-4 w-4 flex-shrink-0 ${
+                      isLocked ? "text-gray-400" : ""
+                    }`}
+                  />
+                  <span className="flex-1">{item.title}</span>
+                  {isLocked && (
+                    <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full ml-2">
+                      {item.requiredPlan === 1 ? "Standard" : "Premium"}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Admin Section - Only show if user is admin */}
@@ -239,7 +278,7 @@ function DashboardLayout() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                  className="flex items-center px-3 py-2 text-sm font-medium text-gray-700  hover:bg-gray-100 hover:text-gray-900 transition-colors"
                   activeProps={{
                     className:
                       "bg-blue-50 text-blue-700 border-r-2 border-blue-600",
