@@ -5,13 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import { SubscriptionGate } from "../../components/SubscriptionGate";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
+
 import { GraduationCap } from "lucide-react";
 
 interface UserData {
