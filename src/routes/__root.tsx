@@ -1,22 +1,24 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanstackDevtools } from '@tanstack/react-devtools'
+import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { TanstackDevtools } from "@tanstack/react-devtools";
+import { Header } from "../components/Header";
 
 export const Route = createRootRoute({
   component: () => (
-    <div className='poppins-light'>
+    <div className="poppins-light">
+      <Header />
       <Outlet />
       <TanstackDevtools
         config={{
-          position: 'bottom-left',
+          position: "bottom-left",
         }}
         plugins={[
           {
-            name: 'Tanstack Router',
+            name: "Tanstack Router",
             render: <TanStackRouterDevtoolsPanel />,
           },
         ]}
       />
     </div>
   ),
-})
+});

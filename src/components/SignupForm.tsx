@@ -8,7 +8,6 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
   onAuthStateChanged,
-  signOut,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
