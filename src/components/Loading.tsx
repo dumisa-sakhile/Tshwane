@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const Loading: FC = () => {
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-zinc-950 text-white"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center  text-white"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}>

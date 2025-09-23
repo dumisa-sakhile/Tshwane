@@ -36,8 +36,8 @@ function DashboardHome() {
       href: "/dashboard/visibility",
     },
     {
-      title: "Secure Document Management",
-      description: "Store and manage business documents securely",
+      title: "Mergers and Acquisitions",
+      description: "Facilitate partnerships, mergers and acquisitions",
       icon: Shield,
       color: "bg-yellow-50 text-yellow-600",
       href: "/dashboard/documents",
@@ -56,7 +56,7 @@ function DashboardHome() {
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-600 mt-2">
-          Welcome to your Tswane Economic Hub dashboard. Access all your
+          Welcome to your Tshwane Economic Hub dashboard. Access all your
           business growth tools and resources.
         </p>
       </div>

@@ -159,11 +159,10 @@ function HomePage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg">
-                      Secure Document Handling
+                      Secure Data handling
                     </h3>
                     <p className="text-gray-600">
-                      Safely upload and store your ID, proof of address, and
-                      CIPC documents with bank-level security.
+                      Our platform is powered by Google Cloud Services. With latest Email Link Login and Google SignIn plus role-based access control, we ensure your data is protected with bank-level security.
                     </p>
                   </div>
                 </div>

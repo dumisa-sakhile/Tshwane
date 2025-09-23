@@ -38,12 +38,12 @@ const planFeatures = {
   1: [
     "Funding Application Portal",
     "Business Workshops",
-    "Market Visibility Tools",
+    "Mergers and Acquisitions",
   ],
   2: [
     "Funding Application Portal",
     "Business Workshops",
-    "Market Visibility Tools",
+    "Mergers and Acquisitions",
     "Secure Document Management",
     "Broadband Access Initiatives",
   ],
@@ -307,41 +307,83 @@ export function SubscriptionGate({
     );
   }
 
-  // Default blocked access UI
+  // Default blocked access UI - Show upgrade options directly
+  const availablePlans = getAvailablePlans();
+
   return (
-    <div className="min-h-[400px] flex items-center justify-center">
-      <Card className="max-w-md mx-auto text-center">
-        <CardHeader>
+    <div className="min-h-[400px] flex items-center justify-center p-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
           <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
             <Lock className="w-8 h-8 text-gray-500" />
           </div>
-          <CardTitle className="text-2xl text-gray-900">
-            Premium Feature
-          </CardTitle>
-          <CardDescription>
-            {featureName} requires a{" "}
-            {planNames[requiredPlan as keyof typeof planNames]} plan or higher
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-gray-600 mb-6">
-            You're currently on the{" "}
-            {planNames[currentPlanLevel as keyof typeof planNames]} plan.
-            Upgrade to unlock this feature and many more!
-          </p>
-          <div className="space-y-2">
-            <Button onClick={() => setShowUpgrade(true)} className="w-full">
-              Upgrade Now
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => window.history.back()}
-              className="w-full">
-              Go Back
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Upgrade Your Plan
+          </h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          {availablePlans.map((planLevel) => (
+            <Card
+              key={planLevel}
+              className={`relative border-2 transition-colors ${
+                planLevel === 2 ? "border-purple-500" : "border-blue-500"
+              } hover:shadow-lg`}>
+              {planLevel === 2 && (
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                    Most Popular
+                  </span>
+                </div>
+              )}
+              <CardHeader className="text-center pb-8">
+                <CardTitle className="text-2xl font-bold text-gray-900">
+                  {planNames[planLevel as keyof typeof planNames]}
+                </CardTitle>
+                <div className="mt-4">
+                  <span className="text-4xl font-bold text-gray-900">
+                    {planPrices[planLevel as keyof typeof planPrices]}
+                  </span>
+                  <span className="text-gray-600">/month</span>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <ul className="space-y-3 mb-8">
+                  {planFeatures[planLevel as keyof typeof planFeatures].map(
+                    (feature) => (
+                      <li key={feature} className="flex items-center">
+                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    )
+                  )}
+                </ul>
+                <Button
+                  onClick={() => handleUpgrade(planLevel)}
+                  disabled={isUpgrading}
+                  className={`w-full ${
+                    planLevel === 2
+                      ? "bg-purple-600 hover:bg-purple-700"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  }`}>
+                  {isUpgrading
+                    ? "Upgrading..."
+                    : `Upgrade to ${planNames[planLevel as keyof typeof planNames]}`}
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="text-center mt-6">
+          <Button
+            variant="outline"
+            onClick={() => window.history.back()}
+            className="px-8">
+            Go Back
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

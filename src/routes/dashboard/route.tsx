@@ -188,7 +188,7 @@ function DashboardLayout() {
       requiredPlan: 1,
     },
     {
-      title: "Secure Document Management",
+      title: "Mergers and Acquisitions",
       icon: Shield,
       href: "/dashboard/documents",
       requiredPlan: 2,

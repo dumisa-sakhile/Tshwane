@@ -82,7 +82,7 @@ function RouteComponent() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>Market Visibility Tools</span>
+                <span>Mergers & Acquisitions</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <svg
@@ -179,7 +179,7 @@ function RouteComponent() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="text-gray-700">Market Visibility Tools</span>
+                <span className="text-gray-700">Mergers & Acquisitions</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <svg
@@ -269,7 +269,7 @@ function RouteComponent() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="text-gray-700">Market Visibility Tools</span>
+                <span className="text-gray-700">Mergers & Acquisitions</span>
               </li>
               <li className="flex items-center">
                 <svg
@@ -381,7 +381,7 @@ function RouteComponent() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Market Visibility Tools
+              Mergers & Acquisitions
             </h3>
             <p className="text-gray-600">
               Increase your business visibility with our digital marketing and
