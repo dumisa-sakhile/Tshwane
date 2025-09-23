@@ -44,7 +44,7 @@ const planFeatures = {
     "Funding Application Portal",
     "Business Workshops",
     "Mergers and Acquisitions",
-    "Secure Document Management",
+    "Market Visibility Tools",
     "Broadband Access Initiatives",
   ],
 };

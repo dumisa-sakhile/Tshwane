@@ -162,7 +162,10 @@ function HomePage() {
                       Secure Data handling
                     </h3>
                     <p className="text-gray-600">
-                      Our platform is powered by Google Cloud Services. With latest Email Link Login and Google SignIn plus role-based access control, we ensure your data is protected with bank-level security.
+                      Our platform is powered by Google Cloud Services. With
+                      latest Email Link Login and Google SignIn plus role-based
+                      access control, we ensure your data is protected with
+                      bank-level security.
                     </p>
                   </div>
                 </div>
@@ -227,11 +230,11 @@ function HomePage() {
 
                   <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">
                     <h4 className="font-semibold text-lg mb-2">
-                      Secure Document Management
+                      Mergers and Acquisitions
                     </h4>
                     <p className="text-gray-600">
-                      Store and manage your business documents securely with
-                      encrypted databases.
+                      Connect with other township businesses for growth through
+                      partnerships and acquisitions.
                     </p>
                   </div>
                   <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">

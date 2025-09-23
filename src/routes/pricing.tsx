@@ -95,7 +95,7 @@ function RouteComponent() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>Secure Document Management</span>
+                <span>Market Visibility Tools</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <svg
@@ -192,7 +192,7 @@ function RouteComponent() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>Secure Document Management</span>
+                <span>Market Visibility Tools</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <svg
@@ -283,7 +283,7 @@ function RouteComponent() {
                   />
                 </svg>
                 <span className="text-gray-700">
-                  Secure Document Management
+                  Market Visibility Tools
                 </span>
               </li>
               <li className="flex items-center">
@@ -405,7 +405,7 @@ function RouteComponent() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Secure Document Management
+              Market Visibility Tools
             </h3>
             <p className="text-gray-600">
               Store and manage your business documents securely with encrypted

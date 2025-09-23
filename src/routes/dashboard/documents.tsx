@@ -84,7 +84,7 @@ function DocumentsPage() {
     <SubscriptionGate
       userPlan={userData.plan}
       requiredPlan={2} // Requires Premium plan
-      featureName="Secure Document Management"
+      featureName="Market Visibility Tools"
       onPlanUpdate={handlePlanUpdate}>
       <div className="space-y-6">
         <div className="flex items-center space-x-3">
@@ -93,7 +93,7 @@ function DocumentsPage() {
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              Secure Document Management
+              Market Visibility Tools
             </h1>
             <p className="text-gray-600">
               Store and manage your business documents securely with encryption
