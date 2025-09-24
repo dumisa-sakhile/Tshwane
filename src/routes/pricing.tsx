@@ -408,8 +408,7 @@ function RouteComponent() {
               Market Visibility Tools
             </h3>
             <p className="text-gray-600">
-              Store and manage your business documents securely with encrypted
-              databases.
+              We help establish partnerships or merging with other local businesses.
             </p>
           </div>
 
