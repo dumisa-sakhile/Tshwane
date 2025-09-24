@@ -278,7 +278,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ className = "" }) => {
               alt="Google Icon"
               className="w-4 h-4 mr-2"
             />
-            {isLoading ? "Signing up..." : "Sign up with Google"}
+            {isLoading ? "Logging in..." : "Log in with Google"}
           </button>
 
           <div className="flex items-center">
