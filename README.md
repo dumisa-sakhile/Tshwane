@@ -298,9 +298,13 @@ For support and questions:
 - **Shadcn** - For the beautiful UI component library
 - **Township entrepreneurs** - For inspiring this platform
 
-## 👥 Team
+## 👥 Meet Our Team
 
-Meet the dedicated team behind Tshwane Economic Hub:
+<div align="center">
+  <img src="./public/team.jpg" alt="Tshwane Economic Hub Team" width="600" style="border-radius: 12px; margin-bottom: 20px;" />
+</div>
+
+The dedicated team behind Tshwane Economic Hub:
 
 - **Quintene Mahlalela**
 - **Awethu Mazibuko**
