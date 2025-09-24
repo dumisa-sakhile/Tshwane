@@ -1,61 +1,347 @@
-Welcome to your new TanStack app! 
+# Tshwane Economic Hub
 
-# Getting Started
+A comprehensive digital platform designed to unlock innovation and economic opportunities for township entrepreneurs in South Africa. The platform connects township businesses with funding opportunities, educational resources, and digital tools to grow their enterprises.
 
-To run this application:
+## 🌟 Features
 
-```bash
-npm install
-npm run start
-```
+### Core Services
 
-# Building For Production
+- **🏦 Funding Application Portal** - Streamlined access to business funding opportunities
+- **📚 Business Workshops** - Educational programs covering digital skills, financial literacy, and entrepreneurship
+- **👁️ Market Visibility Tools** - Digital marketing and business listing services
+- **🤝 Mergers & Acquisitions** - Secure document management and partnership facilitation
+- **🌐 Broadband Access Initiatives** - Connectivity support through ISP partnerships
 
-To build this application for production:
+### Platform Highlights
+
+- 🔐 **Secure Authentication** - Firebase Auth with Google Sign-in and email link authentication
+- 🏢 **Role-based Access** - Different access levels for users and administrators
+- 💳 **Subscription Plans** - Free, Standard (R99/month), and Premium (R149/month) tiers
+- 🎨 **Modern UI** - Built with Tailwind CSS and Shadcn/ui components
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- React.js V19 +
+- npm or yarn package manager
+- Firebase account for authentication and database
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/dumisa-sakhile/tshwane-economic-hub.git
+   cd tshwane-economic-hub
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create a `.env` file in the root directory with your Firebase configuration:
+
+   ```env
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   VITE_BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   # or
+   npm run start
+   ```
+   The application will be available at `http://localhost:3000`
+
+### Building for Production
 
 ```bash
 npm run build
 ```
 
-## Testing
+This will create optimized production files in the `dist` directory.
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## 🏗️ Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # Shadcn/ui components (button, card, input, etc.)
+│   ├── AuthForm.tsx    # Authentication form component
+│   ├── Header.tsx      # Navigation header
+│   ├── Loading.tsx     # Loading component with animations
+│   ├── SignupForm.tsx  # User registration form
+│   └── SubscriptionGate.tsx # Paywall and subscription management
+├── config/
+│   └── firebase.ts     # Firebase configuration and initialization
+├── lib/
+│   └── utils.ts        # Utility functions and helpers
+├── routes/             # File-based routing structure
+│   ├── __root.tsx      # Root layout component
+│   ├── index.tsx       # Homepage with hero section
+│   ├── pricing.tsx     # Service plans and pricing
+│   ├── auth/           # Authentication routes
+│   │   ├── index.tsx   # Login/signup page
+│   │   └── verify.tsx  # Email verification
+│   └── dashboard/      # Protected dashboard routes
+│       ├── route.tsx   # Dashboard layout
+│       ├── index.tsx   # Dashboard home
+│       ├── broadband.tsx    # Broadband initiatives
+│       ├── documents.tsx    # Document management
+│       ├── funding.tsx      # Funding applications
+│       ├── visibility.tsx   # Market visibility tools
+│       ├── workshops.tsx    # Workshop management
+│       └── admin/           # Admin-only routes
+├── styles.css          # Global styles and Tailwind imports
+└── main.tsx           # Application entry point
+```
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **React 19** - Latest React with concurrent features
+- **TypeScript** - Type-safe JavaScript development
+- **TanStack Router** - File-based routing with type safety
+- **TanStack Query** - Server state management and caching
+- **Tailwind CSS 4.x** - Utility-first CSS framework
+- **Framer Motion** - Smooth animations and transitions
+- **Shadcn/ui** - Pre-built accessible component library
+- **Lucide React** - Beautiful icon library
+
+### Backend & Services
+
+- **Firebase Auth** - User authentication and management
+- **Cloud Firestore** - NoSQL database for real-time data
+- **Vercel Blob** - File storage and management
+- **React Hot Toast** - Toast notifications
+
+### Development Tools
+
+- **Vite 6.x** - Fast build tool and dev server
+- **Vitest** - Unit testing framework
+- **TypeScript** - Static type checking
+- **ESLint** - Code linting and quality
+- **date-fns** - Date manipulation library
+
+## 📊 Subscription Plans
+
+### Free Plan (R0/month)
+
+- ✅ Funding Application Portal
+- ❌ Business Workshops
+- ❌ Mergers and Acquisitions
+- ❌ Market Visibility Tools
+- ❌ Broadband Access Initiatives
+
+### Standard Plan (R99/month)
+
+- ✅ Funding Application Portal
+- ✅ Business Workshops
+- ✅ Mergers and Acquisitions
+- ❌ Market Visibility Tools
+- ❌ Broadband Access Initiatives
+
+### Premium Plan (R149/month)
+
+- ✅ All Standard features
+- ✅ Market Visibility Tools
+- ✅ Broadband Access Initiatives
+- ✅ Priority support
+- ✅ Advanced analytics
+
+## 🔒 Security & Authentication
+
+The platform implements robust security measures:
+
+- **Firebase Authentication** - Secure user management
+- **Email Link Authentication** - Passwordless login system
+- **Google Sign-in** - Social authentication integration
+- **Role-based Access Control** - Admin and user permissions
+- **Input Validation** - Form validation and sanitization
+- **Secure File Uploads** - Protected document management
+
+## 📱 Mobile & Accessibility
+
+
+- **Low Bandwidth Optimization** - Optimized for township internet conditions
+- **Progressive Web App** - PWA features for mobile installation
+- **WCAG 2.1 Compliance** - Accessibility standards adherence
+
+
+## 🧪 Testing
+
+Run the test suite:
 
 ```bash
 npm run test
 ```
 
-## Styling
+The project uses Vitest with:
 
-This project uses CSS for styling.
+- **Component Testing** - React Testing Library integration
+- **Unit Tests** - Logic and utility function testing
+- **Mock Services** - Firebase service mocking
+- **DOM Testing** - jsdom environment
+
+## 🚀 Deployment
+
+### Vercel Deployment (Recommended)
+
+1. **Connect to Vercel**
+
+   ```bash
+   npm i -g vercel
+   vercel login
+   vercel
+   ```
+
+2. **Environment Variables**
+   Configure your environment variables in the Vercel dashboard
+
+3. **Custom Domain**
+   Set up your custom domain in Vercel settings
+
+### Manual Deployment
+
+1. **Build the project**
+
+   ```bash
+   npm run build
+   ```
+
+2. **Serve the files**
+
+   ```bash
+   npm run serve
+   ```
+
+3. **Deploy the `dist` folder** to your hosting provider
+
+## 🎯 Key Features Deep Dive
+
+### Dashboard Features
+
+- **📊 Analytics Dashboard** - User engagement and application metrics
+- **📝 Application Management** - Track funding application status
+- **🎓 Workshop Booking** - Educational program registration
+- **📄 Document Center** - Secure document upload and management
+- **🌐 Visibility Tools** - Business listing and marketing features
+
+### Admin Features
+
+- **👥 User Management** - Admin panel for user administration
+- **📈 Application Review** - Funding application approval system
+- **📚 Workshop Management** - Create and manage educational programs
+- **📊 Analytics** - Platform usage and success metrics
+
+## 📈 Performance Features
+
+- **Code Splitting** - Route-based lazy loading
+- **Image Optimization** - Responsive images with proper sizing
+- **Bundle Optimization** - Tree shaking and minimization
+- **Caching Strategies** - Efficient data caching with TanStack Query
+- **CDN Delivery** - Fast content delivery through Vercel
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Commit your changes**
+   ```bash
+   git commit -m 'Add some amazing feature'
+   ```
+4. **Push to the branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. **Open a Pull Request**
+
+### Development Guidelines
+
+- Follow TypeScript strict mode
+- Use conventional commit messages
+- Add tests for new features
+- Ensure responsive design
+- Maintain accessibility standards
+
+## 📄 License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## 🆘 Support & Contact
+
+For support and questions:
 
 
+- **Issues**: [GitHub Issues](https://github.com/dumisa-sakhile/tshwane-economic-hub/issues)
+- **Documentation**: [Project Wiki](https://github.com/dumisa-sakhile/tshwane-economic-hub/wiki)
 
+## 🙏 Acknowledgments
 
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
+- **TanStack** - For the excellent router and query libraries
+- **Firebase** - For authentication and database services
+- **Vercel** - For hosting and blob storage solutions
+- **Shadcn** - For the beautiful UI component library
+- **Township entrepreneurs** - For inspiring this platform
+- **Team** - 
 
-### Adding A Route
+## 🗺️ Development Roadmap
 
-To add a new route to your application just add another a new file in the `./src/routes` directory.
+### Current Phase (Q4 2025)
 
-TanStack will automatically generate the content of the route file for you.
+- ✅ User authentication and profiles
+- ✅ Subscription management system
+- ✅ Funding application portal
+- ✅ Workshop management system
+- 🔄 Enhanced admin dashboard
 
-Now that you have two routes you can use a `Link` component to navigate between them.
+### Next Phase (Q1 2026)
 
-### Adding Links
+- 📱 Mobile app development (React Native)
+- 🤖 AI-powered funding recommendations
+- 📧 SMS/Email notification system
+- 🏦 Banking API integrations
+- 📊 Advanced analytics and reporting
 
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
+### Future Enhancements (Q2-Q3 2026)
 
-```tsx
+- 🌍 Multi-language support (Zulu, Xhosa, Afrikaans, Sesotho)
+- 🛒 Township business marketplace
+- 🎥 Video conference integration for workshops
+- 📱 Offline-first mobile capabilities
+- 🤝 Partnership integrations with local institutions
+
+---
+
+**Made with ❤️ for South African township entrepreneurs**
+
+_Empowering communities through digital innovation and economic opportunities_
 import { Link } from "@tanstack/react-router";
-```
+
+````
 
 Then anywhere in your JSX you can use it like so:
 
 ```tsx
 <Link to="/about">About</Link>
-```
+````
 
 This will create a link that will navigate to the `/about` route.
 
@@ -68,8 +354,8 @@ In the File Based Routing setup the layout is located in `src/routes/__root.tsx`
 Here is an example layout that includes a header:
 
 ```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import { Link } from "@tanstack/react-router";
 
@@ -86,13 +372,12 @@ export const Route = createRootRoute({
       <TanStackRouterDevtools />
     </>
   ),
-})
+});
 ```
 
 The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
 
 More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
 
 ## Data Fetching
 
