@@ -7,11 +7,13 @@ A comprehensive digital platform designed to unlock innovation and economic oppo
 This solution was developed during the **7th Annual Tshwane Varsity Hackathon** hosted by the University Hackathon Series, addressing the challenge of "**Unlocking Digital Innovation for Township Economic Revitalisation**" under the Economic Development And Spatial Planning department.
 
 ### The Challenge
+
 Townships across Gauteng—particularly within the City of Tshwane—are home to dynamic informal economies, rich in entrepreneurial energy and community resilience. However, decades of spatial exclusion, underinvestment, and systemic barriers have left township enterprises disconnected from mainstream economic activity.
 
 Our platform directly addresses the persistent challenges faced by township entrepreneurs:
+
 - 📡 Limited access to digital tools and platforms
-- 🌐 Limited broadband access  
+- 🌐 Limited broadband access
 - 👁️ Poor visibility in formal markets
 - 🤝 Fragmented support ecosystems
 - 🏗️ Inadequate infrastructure and financial exclusion
