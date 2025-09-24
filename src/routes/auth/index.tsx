@@ -247,7 +247,7 @@ function RouteComponent() {
               Log In or Create an Account
             </h1>
             <p className="text-sm text-gray-600">
-              Sign in to bookmark favorites and get recommendations.
+             Sign in to your account or create a new one to get started.
             </p>
           </div>
 
