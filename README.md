@@ -174,11 +174,9 @@ The platform implements robust security measures:
 
 ## 📱 Mobile & Accessibility
 
-
 - **Low Bandwidth Optimization** - Optimized for township internet conditions
 - **Progressive Web App** - PWA features for mobile installation
 - **WCAG 2.1 Compliance** - Accessibility standards adherence
-
 
 ## 🧪 Testing
 
@@ -289,7 +287,6 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 For support and questions:
 
-
 - **Issues**: [GitHub Issues](https://github.com/dumisa-sakhile/tshwane-economic-hub/issues)
 - **Documentation**: [Project Wiki](https://github.com/dumisa-sakhile/tshwane-economic-hub/wiki)
 
@@ -300,7 +297,19 @@ For support and questions:
 - **Vercel** - For hosting and blob storage solutions
 - **Shadcn** - For the beautiful UI component library
 - **Township entrepreneurs** - For inspiring this platform
-- **Team** - 
+
+## 👥 Team
+
+Meet the dedicated team behind Tshwane Economic Hub:
+
+- **Quintene Mahlalela**
+- **Awethu Mazibuko**
+- **Seshane Mahlo**
+- **Thuli Makobe**
+- **Mabo Giqwa**
+- **Sakhile Dumisa**
+- **Seshane Selby**
+- **Samukelisiwe Felicity**
 
 ## 🗺️ Development Roadmap
 
