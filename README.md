@@ -34,7 +34,6 @@ The dedicated team behind Tshwane Economic Hub:
 
 - **Quintene Mahlalela**
 - **Awethu Mazibuko**
-- **Seshane Mahlo**
 - **Thuli Makobe**
 - **Siyabonga Mahlangu**
 - **Mabo Giqwa**
