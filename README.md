@@ -2,6 +2,44 @@
 
 A comprehensive digital platform designed to unlock innovation and economic opportunities for township entrepreneurs in South Africa. The platform connects township businesses with funding opportunities, educational resources, and digital tools to grow their enterprises.
 
+## 🏆 Project Background
+
+This solution was developed during the **7th Annual Tshwane Varsity Hackathon** hosted by the University Hackathon Series, addressing the challenge of "**Unlocking Digital Innovation for Township Economic Revitalisation**" under the Economic Development And Spatial Planning department.
+
+### The Challenge
+
+Townships across Gauteng—particularly within the City of Tshwane—are home to dynamic informal economies, rich in entrepreneurial energy and community resilience. However, decades of spatial exclusion, underinvestment, and systemic barriers have left township enterprises disconnected from mainstream economic activity.
+
+Our platform directly addresses the persistent challenges faced by township entrepreneurs:
+
+- 📡 Limited access to digital tools and platforms
+- 🌐 Limited broadband access
+- 👁️ Poor visibility in formal markets
+- 🤝 Fragmented support ecosystems
+- 🏗️ Inadequate infrastructure and financial exclusion
+- 📈 Lack of scalable, locally grounded innovations
+- 🎓 Low skills-base amongst many entrepreneurs
+- ⚡ Unstable electricity supply
+- 💼 Adverse socio-economic circumstances preventing ICT adoption
+
+This solution aligns with the **Gauteng Township Economic Development Act (2022)** and the **City of Tshwane Economic Revitalisation Strategy (TERS) 2025-2029**, which aims to attract R17 billion in investment and create 80,000 jobs by 2029.
+
+## 👥 Meet Our Team
+
+<div align="center">
+  <img src="./public/team.jpg" alt="Tshwane Economic Hub Team" width="600" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px;" />
+</div>
+
+The dedicated team behind Tshwane Economic Hub:
+
+- **Quintene Mahlalela**
+- **Awethu Mazibuko**
+- **Seshane Mahlo**
+- **Thuli Makobe**
+- **Mabo Giqwa**
+- **Sakhile Dumisa**
+- **Samukelisiwe Felicity**
+
 ## 🌟 Features
 
 ### Core Services
