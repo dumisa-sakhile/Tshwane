@@ -1,4 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { collection, query, getDocs, where } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { db, auth } from "../../config/firebase";
 import {
   Card,
   CardContent,
@@ -6,13 +11,76 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-import { FileText, GraduationCap, Eye, Shield, Wifi } from "lucide-react";
+import {
+  FileText,
+  GraduationCap,
+  Eye,
+  Shield,
+  Wifi,
+  CheckCircle,
+  Clock,
+  XCircle,
+} from "lucide-react";
 
 export const Route = createFileRoute("/dashboard/")({
   component: DashboardHome,
 });
 
 function DashboardHome() {
+  const [user, setUser] = useState<any>(null);
+
+  // Handle authentication
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Fetch funding applications stats
+  const { data: fundingStats = { approved: 0, pending: 0, rejected: 0 } } =
+    useQuery({
+      queryKey: ["funding-stats", user?.uid],
+      queryFn: async () => {
+        if (!user?.uid) return { approved: 0, pending: 0, rejected: 0 };
+
+        try {
+          // Get approved applications
+          const approvedQuery = query(
+            collection(db, "funding"),
+            where("userId", "==", user.uid),
+            where("status", "==", "approved")
+          );
+          const approvedSnapshot = await getDocs(approvedQuery);
+          const approved = approvedSnapshot.size;
+
+          // Get pending applications
+          const pendingQuery = query(
+            collection(db, "funding"),
+            where("userId", "==", user.uid),
+            where("status", "==", "pending")
+          );
+          const pendingSnapshot = await getDocs(pendingQuery);
+          const pending = pendingSnapshot.size;
+
+          // Get rejected applications
+          const rejectedQuery = query(
+            collection(db, "funding"),
+            where("userId", "==", user.uid),
+            where("status", "==", "rejected")
+          );
+          const rejectedSnapshot = await getDocs(rejectedQuery);
+          const rejected = rejectedSnapshot.size;
+
+          return { approved, pending, rejected };
+        } catch (error) {
+          console.error("Error fetching funding stats:", error);
+          return { approved: 0, pending: 0, rejected: 0 };
+        }
+      },
+      enabled: !!user?.uid,
+    });
+
   const services = [
     {
       title: "Funding Application Portal",
@@ -88,32 +156,39 @@ function DashboardHome() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Quick Stats</CardTitle>
+          <CardTitle>Funding Application Stats</CardTitle>
           <CardDescription>
-            Overview of your business activities
+            Overview of your funding application status
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="text-center p-4">
-              <div className="text-2xl font-bold text-blue-600">0</div>
-              <div className="text-sm text-gray-500">
-                Applications Submitted
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-green-50 rounded-lg">
+              <div className="flex items-center justify-center mb-2">
+                <CheckCircle className="h-6 w-6 text-green-600" />
               </div>
-            </div>
-            <div className="text-center p-4">
-              <div className="text-2xl font-bold text-green-600">0</div>
-              <div className="text-sm text-gray-500">Workshops Attended</div>
-            </div>
-            <div className="text-center p-4">
-              <div className="text-2xl font-bold text-purple-600">0</div>
-              <div className="text-sm text-gray-500">
-                Marketing Tools Active
+              <div className="text-2xl font-bold text-green-600">
+                {user ? fundingStats.approved : 0}
               </div>
+              <div className="text-sm text-gray-600">Approved Applications</div>
             </div>
-            <div className="text-center p-4">
-              <div className="text-2xl font-bold text-yellow-600">0</div>
-              <div className="text-sm text-gray-500">Documents Stored</div>
+            <div className="text-center p-4 bg-orange-50 rounded-lg">
+              <div className="flex items-center justify-center mb-2">
+                <Clock className="h-6 w-6 text-orange-600" />
+              </div>
+              <div className="text-2xl font-bold text-orange-600">
+                {user ? fundingStats.pending : 0}
+              </div>
+              <div className="text-sm text-gray-600">Pending Applications</div>
+            </div>
+            <div className="text-center p-4 bg-red-50 rounded-lg">
+              <div className="flex items-center justify-center mb-2">
+                <XCircle className="h-6 w-6 text-red-600" />
+              </div>
+              <div className="text-2xl font-bold text-red-600">
+                {user ? fundingStats.rejected : 0}
+              </div>
+              <div className="text-sm text-gray-600">Rejected Applications</div>
             </div>
           </div>
         </CardContent>

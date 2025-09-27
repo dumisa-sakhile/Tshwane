@@ -38,11 +38,12 @@ import { put } from "@vercel/blob";
 
 // Type definitions
 interface FundingApplication {
+  id: string; // Firestore document ID
   applicationId: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
-  status: "draft" | "submitted" | "under_review" | "approved" | "rejected";
+  status: "draft" | "pending" | "under_review" | "approved" | "rejected";
   submissionDate?: Date;
   reviewerId?: string;
   reviewerName?: string;
@@ -232,9 +233,10 @@ function RouteComponent() {
 
         const apps = querySnapshot.docs.map((doc) => {
           const data = doc.data();
-          console.log("Document data:", { id: doc.id, data });
+          console.log("Document data:", { id: doc.id, status: data.status });
 
           return {
+            id: doc.id,
             applicationId: data.applicationId ?? doc.id,
             userId: data.userId ?? "",
             createdAt: data.createdAt?.toDate
@@ -379,7 +381,7 @@ function RouteComponent() {
           fileName: pdfFile.name,
           fileSize: pdfFile.size,
           fileType: pdfFile.type,
-          pdfPages: 0, // You can extract this with pdfjs-dist if needed
+          pdfPages: 0,
           uploadDate: new Date(),
           documentChecklist:
             applicationData.supportingDocuments?.documentChecklist || {},
@@ -392,10 +394,15 @@ function RouteComponent() {
         userId: user.uid,
         createdAt: new Date(),
         updatedAt: new Date(),
-        status: "submitted" as const,
+        status: "pending" as const, // ✅ Use 'pending' instead of 'submitted'
         submissionDate: new Date(),
         supportingDocuments: blobData || applicationData.supportingDocuments,
       };
+
+      console.log(
+        "Submitting application with status:",
+        applicationWithUserData.status
+      );
 
       const docRef = await addDoc(
         collection(db, "funding"),
@@ -428,9 +435,7 @@ function RouteComponent() {
 
   const validatePhoneNumber = (phone: string): string => {
     if (!phone) return "Phone number is required";
-    // Remove all spaces and special characters for validation
     const cleanPhone = phone.replace(/[\s\-\(\)]/g, "");
-    // Check for South African phone number format (10-11 digits, optionally starting with +27)
     const phoneRegex = /^(\+27|0)?[0-9]{9,10}$/;
     if (!phoneRegex.test(cleanPhone)) {
       return "Please enter a valid phone number (e.g., +27 12 345 6789 or 012 345 6789)";
@@ -526,7 +531,6 @@ function RouteComponent() {
   };
 
   const getStatusBadge = (status: string) => {
-    // Map status to colors and variants
     const statusConfig: Record<
       string,
       {
@@ -535,10 +539,6 @@ function RouteComponent() {
       }
     > = {
       draft: { variant: "secondary", className: "bg-gray-100 text-gray-800" },
-      submitted: {
-        variant: "default",
-        className: "bg-orange-100 text-orange-800",
-      },
       pending: {
         variant: "default",
         className: "bg-orange-100 text-orange-800",
@@ -670,7 +670,6 @@ function RouteComponent() {
                                   businessName: e.target.value,
                                 },
                               }));
-                              // Clear error when user starts typing
                               if (formErrors.businessName) {
                                 setFormErrors((prev) => ({
                                   ...prev,
@@ -814,7 +813,6 @@ function RouteComponent() {
                                 businessDescription: e.target.value,
                               },
                             }));
-                            // Clear error when user starts typing
                             if (formErrors.businessDescription) {
                               setFormErrors((prev) => ({
                                 ...prev,
@@ -857,7 +855,6 @@ function RouteComponent() {
                                   fullName: e.target.value,
                                 },
                               }));
-                              // Clear error when user starts typing
                               if (formErrors.fullName) {
                                 setFormErrors((prev) => ({
                                   ...prev,
@@ -891,7 +888,6 @@ function RouteComponent() {
                                   email: e.target.value,
                                 },
                               }));
-                              // Clear email error when user starts typing
                               if (formErrors.email) {
                                 setFormErrors((prev) => ({
                                   ...prev,
@@ -922,7 +918,6 @@ function RouteComponent() {
                                   phoneNumber: e.target.value,
                                 },
                               }));
-                              // Clear phone error when user starts typing
                               if (formErrors.phoneNumber) {
                                 setFormErrors((prev) => ({
                                   ...prev,
@@ -1007,7 +1002,6 @@ function RouteComponent() {
                                   amountRequested: Number(e.target.value),
                                 },
                               }));
-                              // Clear error when user starts typing
                               if (formErrors.amountRequested) {
                                 setFormErrors((prev) => ({
                                   ...prev,
@@ -1068,7 +1062,6 @@ function RouteComponent() {
                                 detailedPurpose: e.target.value,
                               },
                             }));
-                            // Clear error when user starts typing
                             if (formErrors.detailedPurpose) {
                               setFormErrors((prev) => ({
                                 ...prev,
@@ -1227,7 +1220,6 @@ function RouteComponent() {
                         ))}
                       </div>
 
-                      {/* Display declaration validation errors */}
                       {(formErrors.declaration || formErrors.terms) && (
                         <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
                           {formErrors.declaration && (
@@ -1341,23 +1333,20 @@ function RouteComponent() {
                                 ? app.submissionDate.toLocaleDateString()
                                 : "Date not available"}
                             </TableCell>
+                            <TableCell>{getStatusBadge(app.status)}</TableCell>
                             <TableCell>
-                              {getStatusBadge(
-                                app.status === "submitted"
-                                  ? "pending"
-                                  : app.status
-                              )}
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedApplication(app);
-                                }}>
-                                <Eye className="h-4 w-4" />
-                              </Button>
+                              <div className="flex gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedApplication(app);
+                                  }}
+                                  title="View details">
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </TableCell>
                           </TableRow>
                         ))}
@@ -1377,12 +1366,14 @@ function RouteComponent() {
           <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
               <h2 className="text-xl font-semibold">Application Details</h2>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSelectedApplication(null)}>
-                <X className="h-4 w-4" />
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedApplication(null)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
 
             <div className="p-6 space-y-6">
@@ -1397,11 +1388,7 @@ function RouteComponent() {
                   </p>
                 </div>
                 <div className="text-right">
-                  {getStatusBadge(
-                    selectedApplication.status === "submitted"
-                      ? "pending"
-                      : selectedApplication.status
-                  )}
+                  {getStatusBadge(selectedApplication.status)}
                   <p className="text-sm text-gray-500 mt-1">
                     Submitted:{" "}
                     {selectedApplication.submissionDate?.toLocaleDateString()}

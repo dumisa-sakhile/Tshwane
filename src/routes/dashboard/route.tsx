@@ -21,6 +21,7 @@ import {
   LogOut,
   Home,
   Lock,
+  DollarSign
 } from "lucide-react";
 
 interface UserData {
@@ -202,6 +203,11 @@ function DashboardLayout() {
   ];
 
   const adminItems = [
+    {
+      title: "Funding Applications",
+      icon: DollarSign,
+      href: "/dashboard/admin/funding",
+    },
     {
       title: "Users",
       icon: Users,
