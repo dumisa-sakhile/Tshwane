@@ -27,7 +27,7 @@ This solution aligns with the **Gauteng Township Economic Development Act (2022)
 ## 👥 Meet Our Team
 
 <div align="center">
-  <img src="./public/team.jpg" alt="Tshwane Economic Hub Team" width="600" style="border-radius: 12px; margin-bottom: 20px;" />
+  <img src="./public/team.jpg" alt="Tshwane Economic Hub Team" width="600" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px;" />
 </div>
 
 The dedicated team behind Tshwane Economic Hub:
