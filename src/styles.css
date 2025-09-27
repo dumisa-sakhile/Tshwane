@@ -250,3 +250,23 @@ body {
   overflow: hidden;
   position: relative;
 }
+
+
+::-webkit-scrollbar {
+  width: 6px; /* horizontal scrollbar width */
+  height: 6px; /* vertical scrollbar height */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* scrollbar track background */
+  border-radius: 10px; /* scrollbar track rounded corners */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(47, 106, 242); /* scrollbar thumb color */
+  border-radius: 10px; /* scrollbar thumb rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(47, 106, 242); /* scrollbar thumb hover color */
+}

@@ -17,6 +17,7 @@ import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as DashboardWorkshops_newRouteImport } from './routes/dashboard/workshops_new'
 import { Route as DashboardWorkshopsRouteImport } from './routes/dashboard/workshops'
 import { Route as DashboardVisibilityRouteImport } from './routes/dashboard/visibility'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
 import { Route as DashboardMergersRouteImport } from './routes/dashboard/mergers'
 import { Route as DashboardFundingRouteImport } from './routes/dashboard/funding'
 import { Route as DashboardBroadbandRouteImport } from './routes/dashboard/broadband'
@@ -64,6 +65,11 @@ const DashboardWorkshopsRoute = DashboardWorkshopsRouteImport.update({
 const DashboardVisibilityRoute = DashboardVisibilityRouteImport.update({
   id: '/visibility',
   path: '/visibility',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardMergersRoute = DashboardMergersRouteImport.update({
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/broadband': typeof DashboardBroadbandRoute
   '/dashboard/funding': typeof DashboardFundingRoute
   '/dashboard/mergers': typeof DashboardMergersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/visibility': typeof DashboardVisibilityRoute
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/dashboard/workshops_new': typeof DashboardWorkshops_newRoute
@@ -133,6 +140,7 @@ export interface FileRoutesByTo {
   '/dashboard/broadband': typeof DashboardBroadbandRoute
   '/dashboard/funding': typeof DashboardFundingRoute
   '/dashboard/mergers': typeof DashboardMergersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/visibility': typeof DashboardVisibilityRoute
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/dashboard/workshops_new': typeof DashboardWorkshops_newRoute
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/dashboard/broadband': typeof DashboardBroadbandRoute
   '/dashboard/funding': typeof DashboardFundingRoute
   '/dashboard/mergers': typeof DashboardMergersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/visibility': typeof DashboardVisibilityRoute
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/dashboard/workshops_new': typeof DashboardWorkshops_newRoute
@@ -172,6 +181,7 @@ export interface FileRouteTypes {
     | '/dashboard/broadband'
     | '/dashboard/funding'
     | '/dashboard/mergers'
+    | '/dashboard/profile'
     | '/dashboard/visibility'
     | '/dashboard/workshops'
     | '/dashboard/workshops_new'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/dashboard/broadband'
     | '/dashboard/funding'
     | '/dashboard/mergers'
+    | '/dashboard/profile'
     | '/dashboard/visibility'
     | '/dashboard/workshops'
     | '/dashboard/workshops_new'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/dashboard/broadband'
     | '/dashboard/funding'
     | '/dashboard/mergers'
+    | '/dashboard/profile'
     | '/dashboard/visibility'
     | '/dashboard/workshops'
     | '/dashboard/workshops_new'
@@ -280,6 +292,13 @@ declare module '@tanstack/react-router' {
       path: '/visibility'
       fullPath: '/dashboard/visibility'
       preLoaderRoute: typeof DashboardVisibilityRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/mergers': {
@@ -361,6 +380,7 @@ interface DashboardRouteRouteChildren {
   DashboardBroadbandRoute: typeof DashboardBroadbandRoute
   DashboardFundingRoute: typeof DashboardFundingRoute
   DashboardMergersRoute: typeof DashboardMergersRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardVisibilityRoute: typeof DashboardVisibilityRoute
   DashboardWorkshopsRoute: typeof DashboardWorkshopsRoute
   DashboardWorkshops_newRoute: typeof DashboardWorkshops_newRoute
@@ -372,6 +392,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardBroadbandRoute: DashboardBroadbandRoute,
   DashboardFundingRoute: DashboardFundingRoute,
   DashboardMergersRoute: DashboardMergersRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
   DashboardVisibilityRoute: DashboardVisibilityRoute,
   DashboardWorkshopsRoute: DashboardWorkshopsRoute,
   DashboardWorkshops_newRoute: DashboardWorkshops_newRoute,

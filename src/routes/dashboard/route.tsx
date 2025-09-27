@@ -21,7 +21,8 @@ import {
   LogOut,
   Home,
   Lock,
-  DollarSign
+  DollarSign,
+  User as UserIcon,
 } from "lucide-react";
 
 interface UserData {
@@ -171,6 +172,12 @@ function DashboardLayout() {
       requiredPlan: 0,
     },
     {
+      title: "Profile",
+      icon: UserIcon,
+      href: "/dashboard/profile",
+      requiredPlan: 0,
+    },
+    {
       title: "Funding Application Portal",
       icon: FileText,
       href: "/dashboard/funding",
@@ -226,29 +233,33 @@ function DashboardLayout() {
       <div className="w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col flex-shrink-0">
         {/* User Profile Section */}
         <div className="p-6 border-b border-gray-200 flex-shrink-0">
-          <div className="flex items-center space-x-3">
-            {userData?.photoURL ? (
+          <Link
+            to="/dashboard/profile"
+            className="flex items-center space-x-3 hover:bg-gray-50 p-2 rounded-md transition-colors">
+            {user?.photoURL ? (
               <img
-                src={userData.photoURL}
+                src={user.photoURL}
                 alt="Profile"
-                className="w-10 h-10 rounded-full object-cover"
+                className="w-10 h-10 rounded-full object-cover border border-gray-200"
               />
             ) : (
               <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
                 {userData?.displayName?.charAt(0)?.toUpperCase() ||
+                  userData?.name?.charAt(0)?.toUpperCase() ||
                   userData?.email?.charAt(0)?.toUpperCase() ||
                   "U"}
               </div>
             )}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
-                {userData?.displayName || "User"}
+                {userData?.displayName || userData?.name || "User"}
+                {userData?.surname && ` ${userData.surname}`}
               </p>
               <p className="text-xs text-gray-500 truncate">
                 {userData?.email}
               </p>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Navigation Menu */}
