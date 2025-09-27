@@ -191,7 +191,7 @@ function DashboardLayout() {
     {
       title: "Mergers and Acquisitions",
       icon: Shield,
-      href: "/dashboard/documents",
+      href: "/dashboard/mergers",
       requiredPlan: 2,
     },
     {

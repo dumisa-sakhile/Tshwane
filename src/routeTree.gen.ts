@@ -14,10 +14,11 @@ import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
+import { Route as DashboardWorkshops_newRouteImport } from './routes/dashboard/workshops_new'
 import { Route as DashboardWorkshopsRouteImport } from './routes/dashboard/workshops'
 import { Route as DashboardVisibilityRouteImport } from './routes/dashboard/visibility'
+import { Route as DashboardMergersRouteImport } from './routes/dashboard/mergers'
 import { Route as DashboardFundingRouteImport } from './routes/dashboard/funding'
-import { Route as DashboardDocumentsRouteImport } from './routes/dashboard/documents'
 import { Route as DashboardBroadbandRouteImport } from './routes/dashboard/broadband'
 import { Route as AuthVerifyRouteImport } from './routes/auth/verify'
 import { Route as DashboardAdminRouteRouteImport } from './routes/dashboard/admin/route'
@@ -50,6 +51,11 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/auth/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardWorkshops_newRoute = DashboardWorkshops_newRouteImport.update({
+  id: '/workshops_new',
+  path: '/workshops_new',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardWorkshopsRoute = DashboardWorkshopsRouteImport.update({
   id: '/workshops',
   path: '/workshops',
@@ -60,14 +66,14 @@ const DashboardVisibilityRoute = DashboardVisibilityRouteImport.update({
   path: '/visibility',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardMergersRoute = DashboardMergersRouteImport.update({
+  id: '/mergers',
+  path: '/mergers',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardFundingRoute = DashboardFundingRouteImport.update({
   id: '/funding',
   path: '/funding',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardDocumentsRoute = DashboardDocumentsRouteImport.update({
-  id: '/documents',
-  path: '/documents',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardBroadbandRoute = DashboardBroadbandRouteImport.update({
@@ -109,10 +115,11 @@ export interface FileRoutesByFullPath {
   '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
   '/auth/verify': typeof AuthVerifyRoute
   '/dashboard/broadband': typeof DashboardBroadbandRoute
-  '/dashboard/documents': typeof DashboardDocumentsRoute
   '/dashboard/funding': typeof DashboardFundingRoute
+  '/dashboard/mergers': typeof DashboardMergersRoute
   '/dashboard/visibility': typeof DashboardVisibilityRoute
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
+  '/dashboard/workshops_new': typeof DashboardWorkshops_newRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/businesses': typeof DashboardAdminBusinessesRoute
@@ -124,10 +131,11 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/auth/verify': typeof AuthVerifyRoute
   '/dashboard/broadband': typeof DashboardBroadbandRoute
-  '/dashboard/documents': typeof DashboardDocumentsRoute
   '/dashboard/funding': typeof DashboardFundingRoute
+  '/dashboard/mergers': typeof DashboardMergersRoute
   '/dashboard/visibility': typeof DashboardVisibilityRoute
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
+  '/dashboard/workshops_new': typeof DashboardWorkshops_newRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/admin/businesses': typeof DashboardAdminBusinessesRoute
@@ -142,10 +150,11 @@ export interface FileRoutesById {
   '/dashboard/admin': typeof DashboardAdminRouteRouteWithChildren
   '/auth/verify': typeof AuthVerifyRoute
   '/dashboard/broadband': typeof DashboardBroadbandRoute
-  '/dashboard/documents': typeof DashboardDocumentsRoute
   '/dashboard/funding': typeof DashboardFundingRoute
+  '/dashboard/mergers': typeof DashboardMergersRoute
   '/dashboard/visibility': typeof DashboardVisibilityRoute
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
+  '/dashboard/workshops_new': typeof DashboardWorkshops_newRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/businesses': typeof DashboardAdminBusinessesRoute
@@ -161,10 +170,11 @@ export interface FileRouteTypes {
     | '/dashboard/admin'
     | '/auth/verify'
     | '/dashboard/broadband'
-    | '/dashboard/documents'
     | '/dashboard/funding'
+    | '/dashboard/mergers'
     | '/dashboard/visibility'
     | '/dashboard/workshops'
+    | '/dashboard/workshops_new'
     | '/auth'
     | '/dashboard/'
     | '/dashboard/admin/businesses'
@@ -176,10 +186,11 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/auth/verify'
     | '/dashboard/broadband'
-    | '/dashboard/documents'
     | '/dashboard/funding'
+    | '/dashboard/mergers'
     | '/dashboard/visibility'
     | '/dashboard/workshops'
+    | '/dashboard/workshops_new'
     | '/auth'
     | '/dashboard'
     | '/dashboard/admin/businesses'
@@ -193,10 +204,11 @@ export interface FileRouteTypes {
     | '/dashboard/admin'
     | '/auth/verify'
     | '/dashboard/broadband'
-    | '/dashboard/documents'
     | '/dashboard/funding'
+    | '/dashboard/mergers'
     | '/dashboard/visibility'
     | '/dashboard/workshops'
+    | '/dashboard/workshops_new'
     | '/auth/'
     | '/dashboard/'
     | '/dashboard/admin/businesses'
@@ -249,6 +261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/workshops_new': {
+      id: '/dashboard/workshops_new'
+      path: '/workshops_new'
+      fullPath: '/dashboard/workshops_new'
+      preLoaderRoute: typeof DashboardWorkshops_newRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/workshops': {
       id: '/dashboard/workshops'
       path: '/workshops'
@@ -263,18 +282,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardVisibilityRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/mergers': {
+      id: '/dashboard/mergers'
+      path: '/mergers'
+      fullPath: '/dashboard/mergers'
+      preLoaderRoute: typeof DashboardMergersRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/funding': {
       id: '/dashboard/funding'
       path: '/funding'
       fullPath: '/dashboard/funding'
       preLoaderRoute: typeof DashboardFundingRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/documents': {
-      id: '/dashboard/documents'
-      path: '/documents'
-      fullPath: '/dashboard/documents'
-      preLoaderRoute: typeof DashboardDocumentsRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/broadband': {
@@ -340,20 +359,22 @@ const DashboardAdminRouteRouteWithChildren =
 interface DashboardRouteRouteChildren {
   DashboardAdminRouteRoute: typeof DashboardAdminRouteRouteWithChildren
   DashboardBroadbandRoute: typeof DashboardBroadbandRoute
-  DashboardDocumentsRoute: typeof DashboardDocumentsRoute
   DashboardFundingRoute: typeof DashboardFundingRoute
+  DashboardMergersRoute: typeof DashboardMergersRoute
   DashboardVisibilityRoute: typeof DashboardVisibilityRoute
   DashboardWorkshopsRoute: typeof DashboardWorkshopsRoute
+  DashboardWorkshops_newRoute: typeof DashboardWorkshops_newRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAdminRouteRoute: DashboardAdminRouteRouteWithChildren,
   DashboardBroadbandRoute: DashboardBroadbandRoute,
-  DashboardDocumentsRoute: DashboardDocumentsRoute,
   DashboardFundingRoute: DashboardFundingRoute,
+  DashboardMergersRoute: DashboardMergersRoute,
   DashboardVisibilityRoute: DashboardVisibilityRoute,
   DashboardWorkshopsRoute: DashboardWorkshopsRoute,
+  DashboardWorkshops_newRoute: DashboardWorkshops_newRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 

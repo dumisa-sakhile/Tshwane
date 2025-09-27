@@ -108,7 +108,7 @@ function DashboardHome() {
       description: "Facilitate partnerships, mergers and acquisitions",
       icon: Shield,
       color: "bg-yellow-50 text-yellow-600",
-      href: "/dashboard/documents",
+      href: "/dashboard/mergers",
     },
     {
       title: "Broadband Access Initiatives",
