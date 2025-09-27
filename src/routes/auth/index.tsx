@@ -228,22 +228,22 @@ function RouteComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-blue-600 flex items-center justify-center p-4 poppins-light relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-indigo-500 to-blue-600 flex items-center justify-center p-4 poppins-light relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-300 to-indigo-400 rounded-full blur-3xl opacity-25 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-300 to-purple-400 rounded-full blur-3xl opacity-25 animate-pulse delay-1000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-300 to-indigo-400 rounded-full blur-3xl opacity-25 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-300 to-blue-400 rounded-full blur-3xl opacity-25 animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-indigo-300 to-blue-400 rounded-full blur-3xl opacity-20 animate-pulse delay-500"></div>
       </div>
 
       <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 p-8 relative overflow-hidden z-10">
         {/* Enhanced gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-blue-500/10 rounded-2xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-blue-500/10 to-blue-500/10 rounded-2xl"></div>
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent rounded-2xl"></div>
         <div className="relative z-10">
           {/* Title & Description */}
           <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-blue-600 to-blue-600 bg-clip-text text-transparent mb-2">
               Log In or Create an Account
             </h1>
             <p className="text-sm text-gray-600">
@@ -345,7 +345,7 @@ function RouteComponent() {
                     className={`w-full py-3 px-4 rounded-lg transition-all duration-200 font-medium ${
                       isLoading || !isValidEmail || !email
                         ? "opacity-50 cursor-not-allowed bg-gray-300 text-gray-500"
-                        : "bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 hover:from-indigo-600 hover:via-purple-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                        : "bg-gradient-to-r from-indigo-500 via-blue-500 to-blue-500 hover:from-indigo-600 hover:via-blue-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
                     }`}>
                     {isLoading ? "Sending..." : "Email magic link"}
                   </button>

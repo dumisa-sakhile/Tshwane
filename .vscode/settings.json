@@ -7,5 +7,12 @@
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
-  }
+  },
+  "cSpell.words": [
+    "atteridgeville",
+    "garankuwa",
+    "Hammanskraal",
+    "mamelodi",
+    "soshanguve"
+  ]
 }

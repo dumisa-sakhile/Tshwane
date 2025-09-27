@@ -148,7 +148,7 @@ function DashboardLayout() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="h-screen w-screen flex items-center justify-center bg-gray-50 fixed inset-0">
         <div className="text-lg">Loading...</div>
       </div>
     );
@@ -156,7 +156,7 @@ function DashboardLayout() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="h-screen w-screen flex items-center justify-center bg-gray-50 fixed inset-0">
         <div className="text-lg">Please log in to access the dashboard.</div>
       </div>
     );
@@ -215,11 +215,11 @@ function DashboardLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="h-screen w-screen bg-gray-50 flex fixed inset-0 overflow-hidden">
       {/* Side Menu */}
-      <div className="w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col">
+      <div className="w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col flex-shrink-0">
         {/* User Profile Section */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center space-x-3">
             {userData?.photoURL ? (
               <img
@@ -246,7 +246,7 @@ function DashboardLayout() {
         </div>
 
         {/* Navigation Menu */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           <div className="space-y-1">
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
               Services
@@ -311,7 +311,7 @@ function DashboardLayout() {
         </nav>
 
         {/* Sign Out Button */}
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200 flex-shrink-0">
           <Button
             onClick={handleSignOut}
             variant="destructive"
@@ -323,9 +323,9 @@ function DashboardLayout() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <main className="flex-1 overflow-auto">
-          <div className="p-6">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="p-6 min-h-full">
             <Outlet />
           </div>
         </main>

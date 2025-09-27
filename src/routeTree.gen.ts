@@ -22,6 +22,7 @@ import { Route as DashboardBroadbandRouteImport } from './routes/dashboard/broad
 import { Route as AuthVerifyRouteImport } from './routes/auth/verify'
 import { Route as DashboardAdminRouteRouteImport } from './routes/dashboard/admin/route'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
+import { Route as DashboardAdminFundingRouteImport } from './routes/dashboard/admin/funding'
 
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
@@ -88,6 +89,11 @@ const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardAdminRouteRoute,
 } as any)
+const DashboardAdminFundingRoute = DashboardAdminFundingRouteImport.update({
+  id: '/funding',
+  path: '/funding',
+  getParentRoute: () => DashboardAdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/admin/funding': typeof DashboardAdminFundingRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/auth': typeof AuthIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/admin/funding': typeof DashboardAdminFundingRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/dashboard/workshops': typeof DashboardWorkshopsRoute
   '/auth/': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/admin/funding': typeof DashboardAdminFundingRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
     | '/dashboard/workshops'
     | '/auth'
     | '/dashboard/'
+    | '/dashboard/admin/funding'
     | '/dashboard/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/dashboard/workshops'
     | '/auth'
     | '/dashboard'
+    | '/dashboard/admin/funding'
     | '/dashboard/admin'
   id:
     | '__root__'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/dashboard/workshops'
     | '/auth/'
     | '/dashboard/'
+    | '/dashboard/admin/funding'
     | '/dashboard/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -280,14 +292,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAdminIndexRouteImport
       parentRoute: typeof DashboardAdminRouteRoute
     }
+    '/dashboard/admin/funding': {
+      id: '/dashboard/admin/funding'
+      path: '/funding'
+      fullPath: '/dashboard/admin/funding'
+      preLoaderRoute: typeof DashboardAdminFundingRouteImport
+      parentRoute: typeof DashboardAdminRouteRoute
+    }
   }
 }
 
 interface DashboardAdminRouteRouteChildren {
+  DashboardAdminFundingRoute: typeof DashboardAdminFundingRoute
   DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
 }
 
 const DashboardAdminRouteRouteChildren: DashboardAdminRouteRouteChildren = {
+  DashboardAdminFundingRoute: DashboardAdminFundingRoute,
   DashboardAdminIndexRoute: DashboardAdminIndexRoute,
 }
 
