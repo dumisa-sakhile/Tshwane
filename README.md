@@ -38,7 +38,7 @@ The dedicated team behind Tshwane Economic Hub:
 - **Thuli Makobe**
 - **Mabo Giqwa**
 - **Sakhile Dumisa**
-- **Samukelisiwe Felicity**
+- **Samukelisiwe Phiri**
 
 ## 🌟 Features
 
