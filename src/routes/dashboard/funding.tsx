@@ -41,6 +41,19 @@ interface FundingApplication {
   id: string; // Firestore document ID
   applicationId: string;
   userId: string;
+  // Flat top-level fields for easier querying/display
+  businessName?: string;
+  businessAge?: number;
+  numberOfEmployees?: number;
+  monthlyRevenue?: number;
+  industry?: string;
+  businessType?: string;
+  ownerFullName?: string;
+  ownerPhoneNumber?: string;
+  amountRequested?: number;
+  fundingPurpose?: string;
+  informationAccurate?: boolean;
+  agreeToTerms?: boolean;
   createdAt: Date;
   updatedAt: Date;
   status: "draft" | "pending" | "under_review" | "approved" | "rejected";
@@ -263,6 +276,24 @@ function RouteComponent() {
               ? data.reviewDate.toDate()
               : data.reviewDate,
             feedback: data.feedback ?? undefined,
+            // Flat top-level fields (fallback to nested values)
+            businessName: data.businessName ?? data.businessInfo?.businessName ?? "",
+            businessAge: data.businessAge ?? data.businessInfo?.yearsInOperation ?? 0,
+            numberOfEmployees: data.numberOfEmployees ?? data.businessInfo?.numberOfEmployees ?? 0,
+            monthlyRevenue: data.monthlyRevenue ?? data.businessPerformance?.monthlyRevenue ?? 0,
+            industry: data.industry ?? data.businessInfo?.industry ?? "",
+            businessType: data.businessType ?? data.businessInfo?.legalStructure ?? "",
+            ownerFullName: data.ownerFullName ?? data.ownerInfo?.fullName ?? "",
+            ownerPhoneNumber: data.ownerPhoneNumber ?? data.ownerInfo?.phoneNumber ?? "",
+            amountRequested: data.amountRequested ?? data.fundingRequest?.amountRequested ?? 0,
+            fundingPurpose:
+              data.fundingPurpose ??
+              (Array.isArray(data.fundingRequest?.purpose)
+                ? data.fundingRequest.purpose.join(", ")
+                : data.fundingRequest?.detailedPurpose ?? ""),
+            informationAccurate:
+              data.informationAccurate ?? data.declaration?.informationAccurate ?? false,
+            agreeToTerms: data.agreeToTerms ?? data.declaration?.agreeToTerms ?? false,
             businessInfo: data.businessInfo ?? {
               businessName: "",
               legalStructure: "",
@@ -398,6 +429,35 @@ function RouteComponent() {
         submissionDate: new Date(),
         supportingDocuments: blobData || applicationData.supportingDocuments,
       };
+      // Add flat top-level fields for compatibility and easier querying
+      const flatFields = {
+        businessName:
+          applicationData.businessName || applicationData.businessInfo?.businessName || "",
+        businessAge:
+          applicationData.businessAge || applicationData.businessInfo?.yearsInOperation || applicationData.businessAge || 0,
+        numberOfEmployees:
+          applicationData.numberOfEmployees || applicationData.businessInfo?.numberOfEmployees || 0,
+        monthlyRevenue:
+          applicationData.monthlyRevenue || applicationData.businessPerformance?.monthlyRevenue || 0,
+        industry: applicationData.industry || applicationData.businessInfo?.industry || "",
+        businessType: applicationData.businessType || applicationData.businessInfo?.legalStructure || "",
+        ownerFullName: applicationData.ownerFullName || applicationData.ownerInfo?.fullName || "",
+        ownerPhoneNumber: applicationData.ownerPhoneNumber || applicationData.ownerInfo?.phoneNumber || "",
+        amountRequested:
+          applicationData.amountRequested || applicationData.fundingRequest?.amountRequested || 0,
+        fundingPurpose:
+          applicationData.fundingPurpose ||
+          (Array.isArray(applicationData.fundingRequest?.purpose)
+            ? applicationData.fundingRequest?.purpose.join(", ")
+            : applicationData.fundingRequest?.detailedPurpose || ""),
+        informationAccurate:
+          applicationData.informationAccurate ?? applicationData.declaration?.informationAccurate ?? false,
+        agreeToTerms:
+          applicationData.agreeToTerms ?? applicationData.declaration?.agreeToTerms ?? false,
+      };
+
+      // Merge flat fields into the final payload
+      Object.assign(applicationWithUserData, flatFields);
 
       console.log(
         "Submitting application with status:",
@@ -451,6 +511,16 @@ function RouteComponent() {
       errors.businessName = "Business name is required";
     }
 
+      // Validate years in operation
+      if (!formData.businessInfo?.yearsInOperation || formData.businessInfo.yearsInOperation <= 0) {
+        errors.businessAge = "Business age (years in operation) is required and must be > 0";
+      }
+
+      // Validate number of employees
+      if (!formData.businessInfo?.numberOfEmployees || formData.businessInfo.numberOfEmployees <= 0) {
+        errors.numberOfEmployees = "Number of employees is required and must be > 0";
+      }
+
     if (!formData.businessInfo?.businessDescription?.trim()) {
       errors.businessDescription = "Business description is required";
     }
@@ -476,6 +546,11 @@ function RouteComponent() {
       formData.fundingRequest.amountRequested <= 0
     ) {
       errors.amountRequested = "Please enter a valid funding amount";
+    }
+
+    // Validate monthly revenue
+    if (!formData.businessPerformance?.monthlyRevenue || formData.businessPerformance.monthlyRevenue <= 0) {
+      errors.monthlyRevenue = "Monthly revenue is required and must be > 0";
     }
 
     if (!formData.fundingRequest?.detailedPurpose?.trim()) {
@@ -579,20 +654,17 @@ function RouteComponent() {
   return (
     <div className="container mx-auto py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Funding Applications
-        </h1>
-        <p className="text-gray-600 mt-2">Manage your funding applications</p>
-      </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Funding Applications</h1>
+            <p className="text-gray-600 mt-2">Manage your funding applications</p>
+          </div>
 
-      {/* Tab Navigation with Router Links */}
-      <div className="mb-6">
-        <div className="border-b border-gray-200">
-          <nav className="-mb-px flex space-x-8">
+          <nav className="flex space-x-2">
             <Link
               to="/dashboard/funding"
               search={{ tab: "new" }}
-              className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center ${
+              className={`py-2 px-4 border-b-2 font-medium text-sm flex items-center ${
                 search.tab === "new"
                   ? "border-blue-500 text-blue-600"
                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -600,10 +672,11 @@ function RouteComponent() {
               <Plus className="w-4 h-4 mr-2" />
               New Application
             </Link>
+
             <Link
               to="/dashboard/funding"
               search={{ tab: "view" }}
-              className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center ${
+              className={`py-2 px-4 border-b-2 font-medium text-sm flex items-center ${
                 search.tab === "view"
                   ? "border-blue-500 text-blue-600"
                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -733,6 +806,7 @@ function RouteComponent() {
                                   ...prev.businessInfo!,
                                   industry: value,
                                 },
+                                industry: value,
                               }))
                             }>
                             <SelectTrigger>
@@ -755,6 +829,48 @@ function RouteComponent() {
                               </SelectItem>
                             </SelectContent>
                           </Select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="yearsInOperation">Years in Operation *</Label>
+                          <Input
+                            id="yearsInOperation"
+                            type="number"
+                            min={0}
+                            value={formData.businessInfo?.yearsInOperation ?? ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                businessInfo: {
+                                  ...prev.businessInfo!,
+                                  yearsInOperation: Number(e.target.value),
+                                },
+                                businessAge: Number(e.target.value),
+                              }))
+                            }
+                            placeholder="Years in operation"
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="numberOfEmployees">Number of Employees *</Label>
+                          <Input
+                            id="numberOfEmployees"
+                            type="number"
+                            min={0}
+                            value={formData.businessInfo?.numberOfEmployees ?? 1}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                businessInfo: {
+                                  ...prev.businessInfo!,
+                                  numberOfEmployees: Number(e.target.value),
+                                },
+                                numberOfEmployees: Number(e.target.value),
+                              }))
+                            }
+                            placeholder="Number of employees"
+                          />
                         </div>
 
                         <div className="space-y-2">
@@ -833,6 +949,39 @@ function RouteComponent() {
                             {formErrors.businessDescription}
                           </p>
                         )}
+                      </div>
+                    </div>
+
+                    {/* Business Performance Section */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold">Business Performance</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="monthlyRevenue">Monthly Revenue (ZAR) *</Label>
+                          <Input
+                            id="monthlyRevenue"
+                            type="number"
+                            min={0}
+                            step={0.01}
+                            value={formData.businessPerformance?.monthlyRevenue ?? ""}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                businessPerformance: {
+                                  ...prev.businessPerformance!,
+                                  monthlyRevenue: Number(e.target.value),
+                                },
+                                monthlyRevenue: Number(e.target.value),
+                              }))
+                            }
+                            placeholder="Monthly revenue"
+                          />
+                          {formErrors.monthlyRevenue && (
+                            <p className="text-sm text-red-600">
+                              {formErrors.monthlyRevenue}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -917,6 +1066,7 @@ function RouteComponent() {
                                   ...prev.ownerInfo!,
                                   phoneNumber: e.target.value,
                                 },
+                                ownerPhoneNumber: e.target.value,
                               }));
                               if (formErrors.phoneNumber) {
                                 setFormErrors((prev) => ({
@@ -1001,6 +1151,7 @@ function RouteComponent() {
                                   ...prev.fundingRequest!,
                                   amountRequested: Number(e.target.value),
                                 },
+                                amountRequested: Number(e.target.value),
                               }));
                               if (formErrors.amountRequested) {
                                 setFormErrors((prev) => ({
@@ -1061,6 +1212,7 @@ function RouteComponent() {
                                 ...prev.fundingRequest!,
                                 detailedPurpose: e.target.value,
                               },
+                              fundingPurpose: e.target.value,
                             }));
                             if (formErrors.detailedPurpose) {
                               setFormErrors((prev) => ({
@@ -1407,7 +1559,7 @@ function RouteComponent() {
                       Business Name
                     </label>
                     <p className="text-sm">
-                      {selectedApplication.businessInfo?.businessName || "N/A"}
+                      {selectedApplication.businessName || selectedApplication.businessInfo?.businessName || "N/A"}
                     </p>
                   </div>
                   <div>
@@ -1415,8 +1567,7 @@ function RouteComponent() {
                       Legal Structure
                     </label>
                     <p className="text-sm">
-                      {selectedApplication.businessInfo?.legalStructure ||
-                        "N/A"}
+                      {selectedApplication.businessType || selectedApplication.businessInfo?.legalStructure || "N/A"}
                     </p>
                   </div>
                   <div>
@@ -1424,7 +1575,7 @@ function RouteComponent() {
                       Industry
                     </label>
                     <p className="text-sm">
-                      {selectedApplication.businessInfo?.industry || "N/A"}
+                      {selectedApplication.industry || selectedApplication.businessInfo?.industry || "N/A"}
                     </p>
                   </div>
                   <div>
@@ -1441,8 +1592,7 @@ function RouteComponent() {
                       Years in Operation
                     </label>
                     <p className="text-sm">
-                      {selectedApplication.businessInfo?.yearsInOperation || 0}{" "}
-                      years
+                      {(selectedApplication.businessAge ?? selectedApplication.businessInfo?.yearsInOperation) || 0} years
                     </p>
                   </div>
                   <div>
@@ -1450,7 +1600,15 @@ function RouteComponent() {
                       Number of Employees
                     </label>
                     <p className="text-sm">
-                      {selectedApplication.businessInfo?.numberOfEmployees || 0}
+                      {(selectedApplication.numberOfEmployees ?? selectedApplication.businessInfo?.numberOfEmployees) || 0}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600">
+                      Monthly Revenue
+                    </label>
+                    <p className="text-sm">
+                      R{(selectedApplication.monthlyRevenue ?? selectedApplication.businessPerformance?.monthlyRevenue ?? 0).toLocaleString()}
                     </p>
                   </div>
                   <div className="md:col-span-2">
