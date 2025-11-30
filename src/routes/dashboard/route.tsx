@@ -3,6 +3,7 @@ import {
   Outlet,
   Link,
   useNavigate,
+  useLocation,
 } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -148,6 +149,12 @@ function DashboardLayout() {
     return isLocked ? Lock : item.icon;
   };
 
+  // Use router location for active link detection (works with router state)
+  const location = useLocation();
+  const pathname = location?.pathname ?? "";
+  // Normalize helper to compare paths without trailing slashes
+  const normalizePath = (p: string) => (p || "").replace(/\/$/, "");
+
   if (loading) {
     return (
       <div className="h-screen w-screen flex items-center justify-center bg-gray-50 fixed inset-0">
@@ -271,22 +278,28 @@ function DashboardLayout() {
             {menuItems.map((item) => {
               const MenuIcon = getMenuIcon(item);
               const isLocked = currentPlanLevel < item.requiredPlan;
+                const normPath = normalizePath(pathname);
+                const normHref = normalizePath(item.href);
+                let exactMatchRequired = item.href.endsWith("/");
+                // Treat the admin root as exact-match to avoid highlighting parent when on child admin pages
+                if (item.href === "/dashboard/admin") exactMatchRequired = true;
+                const isActiveLink = exactMatchRequired
+                  ? normPath === normHref
+                  : normPath === normHref || normPath.startsWith(normHref + "/");
+
+              const baseClass = "flex items-center px-3 py-2 text-sm font-medium transition-colors";
+              const activeClass = isLocked
+                ? "bg-gray-50 text-gray-400 border-r-2 border-gray-300"
+                : "bg-blue-50 text-blue-700 border-r-2 border-blue-600";
+              const inactiveClass = isLocked
+                ? "text-gray-400 hover:bg-gray-50 hover:text-gray-500"
+                : "text-gray-700 hover:bg-gray-100 hover:text-gray-900";
 
               return (
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`flex items-center px-3 py-2 text-sm font-medium transition-colors ${
-                    isLocked
-                      ? "text-gray-400 hover:bg-gray-50 hover:text-gray-500"
-                      : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                  }`}
-                  activeProps={{
-                    className: isLocked
-                      ? "bg-gray-50 text-gray-400 border-r-2 border-gray-300"
-                      : "bg-blue-50 text-blue-700 border-r-2 border-blue-600",
-                  }}
-                  activeOptions={{ exact: true }}>
+                  className={`${baseClass} ${isActiveLink ? activeClass : inactiveClass}`}>
                   <MenuIcon
                     className={`mr-3 h-4 w-4 flex-shrink-0 ${
                       isLocked ? "text-gray-400" : ""
@@ -309,20 +322,28 @@ function DashboardLayout() {
               <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                 Administration
               </h3>
-              {adminItems.map((item) => (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className="flex items-center px-3 py-2 text-sm font-medium text-gray-700  hover:bg-gray-100 hover:text-gray-900 transition-colors"
-                  activeProps={{
-                    className:
-                      "bg-blue-50 text-blue-700 border-r-2 border-blue-600",
-                  }}
-                  activeOptions={{ exact: true }}>
-                  <item.icon className="mr-3 h-4 w-4 flex-shrink-0" />
-                  {item.title}
-                </Link>
-              ))}
+              {adminItems.map((item) => {
+                const normPath = normalizePath(pathname);
+                const normHref = normalizePath(item.href);
+                let exactMatchRequired = item.href.endsWith("/");
+                if (item.href === "/dashboard/admin") exactMatchRequired = true;
+                const isActiveLink = exactMatchRequired
+                  ? normPath === normHref
+                  : normPath === normHref || normPath.startsWith(normHref + "/");
+                return (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className={`flex items-center px-3 py-2 text-sm font-medium transition-colors ${
+                      isActiveLink
+                        ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600"
+                        : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    }`}>
+                    <item.icon className="mr-3 h-4 w-4 flex-shrink-0" />
+                    {item.title}
+                  </Link>
+                );
+              })}
             </div>
           )}
         </nav>
